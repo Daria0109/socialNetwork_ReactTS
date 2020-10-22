@@ -9,18 +9,46 @@ export type UsersPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: Array<UserType>) => void
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    setCurrentPage: (pageNumber: number) => void
+    setTotalUsersCount: (totalUsers: number) => void
 }
 
 class Users extends React.Component<UsersPropsType> {
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then((response: any) =>
-            this.props.setUsers(response.data.items))
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then((response: any) => {
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsersCount(response.data.totalCount)
+        })
+    }
+    setCurrentPage = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then((response: any) => {
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsersCount(response.data.totalCount)
+        })
     }
 
     render() {
+        const pageCount: number = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+        let pages: Array<number> = [];
+        for (let i = 1; i <= pageCount; i++) {
+            pages.push(i);
+        }
         return (
             <div className={s.users}>
-
+                {
+                    pages.map((p: number, i: any) => {
+                        const pageStyle = p === this.props.currentPage ? s.active_page : "";
+                        return (
+                            <span key={i}
+                                  className={pageStyle}
+                                  onClick={() => this.setCurrentPage(p)}> {p} </span>
+                        )
+                    })
+                }
                 {
                     this.props.users.map(u => <div key={u.id} className={s.user_block}>
                         <div className={s.user_left}>
