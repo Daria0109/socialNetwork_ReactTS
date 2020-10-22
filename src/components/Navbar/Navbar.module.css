@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+.nav {
+    grid-area: nav;
+    background-color: bisque;
+    padding: 20px;
+}
+.item a {
+    color: darkblue;
+    text-decoration: none;
+}
+a.active {
+    color: darkorange;
+}

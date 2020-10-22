@@ -1,0 +1,12 @@
+.friend {
+    margin-bottom: 10px;
+}
+.avatar {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+.name {
+    font-size: 12px;
+    text-align: center;
+}

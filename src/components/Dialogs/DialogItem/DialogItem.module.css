@@ -1,0 +1,16 @@
+.avatar {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.dialog__item {
+    display: flex;
+    justify-items: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.name {
+    margin-left: 5px;
+
+}

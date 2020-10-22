@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+}
+.users {
+    padding: 50px;
+}
+.user_block {
+    max-width: 80%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    background-color: ghostwhite;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.user_left {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.avatar {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.btn {
+    max-height: 80px;
+    display: block;
+    padding: 5px 15px;
+}
+.user_right {
+    flex-basis: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.info {
+    font-size: 18px;
+    font-weight: bold;
+}
+
