@@ -2,13 +2,15 @@ export const FOLLOW = 'FOLLOW';
 export const UNFOLLOW = 'UNFOLLOW';
 export const SET_USERS = 'SET-USERS';
 export const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
-export const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT"
+export const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT";
+export const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING"
 
 export type UsersAC = ReturnType<typeof followAC> |
     ReturnType<typeof unfollowAC> |
     ReturnType<typeof setUsersAC> |
     ReturnType<typeof setCurrentPageAC> |
-    ReturnType<typeof setTotalUsersCountAC>;
+    ReturnType<typeof setTotalUsersCountAC> |
+    ReturnType<typeof toggleIsFetchingAC>;
 
 export const followAC = (userId: number) => ({type: FOLLOW, userId} as const);
 export const unfollowAC = (userId: number) => ({type: UNFOLLOW, userId} as const);
@@ -17,6 +19,7 @@ export const setCurrentPageAC = (pageNumber: number) => ({type: SET_CURRENT_PAGE
 export const setTotalUsersCountAC = (totalUsers: number) => ({
     type: SET_TOTAL_USERS_COUNT,  totalUsers
 } as const)
+export const toggleIsFetchingAC = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const)
 
 
 
@@ -36,6 +39,7 @@ export type UsersInitialStateType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 export type UsersReducerType = typeof initialState;
 
@@ -43,7 +47,8 @@ let initialState = {
     users: [] as Array<UserType>,
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: true
 }
 
 let usersReducer = (state = initialState, action: UsersAC): UsersReducerType => {
@@ -92,6 +97,12 @@ let usersReducer = (state = initialState, action: UsersAC): UsersReducerType => 
             return {
                 ...state,
                 totalUsersCount: state.totalUsersCount = action.totalUsers
+            }
+        };
+        case (TOGGLE_IS_FETCHING): {
+            return {
+                ...state,
+                isFetching: state.isFetching = action.isFetching
             }
         }
         default:

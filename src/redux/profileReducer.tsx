@@ -52,7 +52,7 @@ let initialState = {
             avatar: 'https://i.pinimg.com/originals/5a/f1/dd/5af1ddcde07255e8a999abcc061dd201.png'
         }
     ],
-    newTextPost: ""
+    newTextPost: ''
 }
 
 let profileReducer = (state = initialState, action: PostActionsTypes): ProfileReducerType => {
@@ -81,4 +81,4 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
     }
 }
 
-    export default profileReducer;
+export default profileReducer;

@@ -12,6 +12,7 @@ export type UsersPropsType = {
     users: Array<UserType>
     follow: (userId: number) => void
     unfollow: (userId: number) => void
+
 }
 
 
@@ -25,7 +26,7 @@ const Users = function (props: UsersPropsType) {
         <div className={s.users}>
             {
                 pages.map((p: number, i: any) => {
-                    const pageStyle = p === props.currentPage ? s.active_page : "";
+                    const pageStyle = p === props.currentPage ? s.active_page : '';
                     return (
                         <span key={i}
                               className={pageStyle}
