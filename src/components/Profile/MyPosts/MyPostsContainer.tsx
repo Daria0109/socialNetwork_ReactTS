@@ -1,9 +1,8 @@
 import React from 'react';
 import {RootStoreType} from '../../../redux/redux-store';
 import {
-    addPostActionCreator,
-    PostActionsTypes,
-    updatePostActionCreator
+    addPost,
+    updatePost
 } from '../../../redux/profileReducer';
 import MyPosts from './MyPosts';
 import {connect} from 'react-redux';
@@ -17,15 +16,8 @@ const mapStateToProps = (state: RootStoreType) => {
         profilePage: state.profilePage,
     }
 }
-const mapDispatchToProps = (dispatch: (action: PostActionsTypes) => void) => {
-    return {
-        addPost: () => dispatch(addPostActionCreator()),
-        updatePost: (updatedPostText: string) =>
-            dispatch(updatePostActionCreator(updatedPostText))
-    }
-}
 
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
+const MyPostsContainer = connect(mapStateToProps, {addPost, updatePost})(MyPosts);
 export default MyPostsContainer;
 
 
