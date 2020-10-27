@@ -38,7 +38,7 @@ const Users = function (props: UsersPropsType) {
       {
         props.users.map(u => <div key={u.id} className={s.user_block}>
           <div className={s.user_left}>
-            <NavLink to={'/profile' + u.id}>
+            <NavLink to={'/profile/' + u.id}>
               <img src={u.photos.small ? u.photos.small : userPhoto} className={s.avatar}/>
             </NavLink>
             {u.followed ?
