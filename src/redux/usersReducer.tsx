@@ -22,7 +22,6 @@ export const setTotalUsersCount = (totalUsers: number) => ({
 export const toggleIsFetching = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const)
 
 
-
 export type UserType = {
   name: string
   id: number
