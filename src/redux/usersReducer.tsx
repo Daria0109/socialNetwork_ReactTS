@@ -21,6 +21,16 @@ export const setTotalUsersCount = (totalUsers: number) => ({
 } as const)
 export const toggleIsFetching = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const)
 
+export type DataType = {
+  items: Array<UserType>
+  totalCount: number
+  error: string
+}
+export type FollowDataType = {
+  resultCode: number
+  messages: Array<string>
+  data: {}
+}
 
 export type UserType = {
   name: string

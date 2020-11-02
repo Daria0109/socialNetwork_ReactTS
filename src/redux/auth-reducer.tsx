@@ -7,9 +7,9 @@ export const setAuthUserData = (id: number, email: string, login: string) => ({
 })
 
 export type DataType = {
-  id: number | null
-  email: string | null
-  login: string | null
+  id: number
+  email: string
+  login: string
 }
 export type AuthType = {
   data: DataType
