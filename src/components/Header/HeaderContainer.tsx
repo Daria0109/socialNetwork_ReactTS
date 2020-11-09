@@ -5,11 +5,14 @@ import {RootStoreType} from '../../redux/redux-store';
 import {setAuthUserData} from '../../redux/auth-reducer';
 import {headerAPI} from '../../api/api';
 
-export type HeaderContainerPropsType = {
-  setAuthUserData: (id: number, email: string, login: string) => void
+type MapStatePropsType = {
   login: string | null
   isAuth: boolean
 }
+type MapDispatchPropsType = {
+  setAuthUserData: (id: number, email: string, login: string) => void
+}
+export type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
   componentDidMount() {
@@ -27,7 +30,7 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType> {
   }
 }
 
-const mapStateToProps = (state: RootStoreType) => ({
+const mapStateToProps = (state: RootStoreType): MapStatePropsType => ({
   login: state.auth.login,
   isAuth: state.auth.isAuth
 })

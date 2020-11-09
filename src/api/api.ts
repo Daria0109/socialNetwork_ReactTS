@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {DataType, FollowDataType} from '../redux/usersReducer';
+import {DataType, FollowDataType} from '../redux/users-reducer';
 import {AuthType} from '../redux/auth-reducer'
-import {ProfileType} from '../redux/profileReducer';
+import {ProfileType} from '../redux/profile-reducer';
 
 
 type InstanceType = typeof instance;

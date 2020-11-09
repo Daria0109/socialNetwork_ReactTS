@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from "redux";
-import profileReducer from './profileReducer';
-import dialogsReducer from './dialogsReducer';
-import navbarReducer from './navbarReducer';
-import usersReducer from './usersReducer';
+import profileReducer from './profile-reducer';
+import dialogsReducer from './dialogs-reducer';
+import navbarReducer from './navbar-reducer';
+import usersReducer from './users-reducer';
 import authReducer from './auth-reducer';
 
 

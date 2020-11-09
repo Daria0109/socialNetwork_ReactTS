@@ -3,7 +3,7 @@ import {RootStoreType} from '../../../redux/redux-store';
 import {
     addPost,
     updatePost
-} from '../../../redux/profileReducer';
+} from '../../../redux/profile-reducer';
 import MyPosts from './MyPosts';
 import {connect} from 'react-redux';
 

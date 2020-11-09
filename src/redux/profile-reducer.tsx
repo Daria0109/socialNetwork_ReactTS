@@ -67,7 +67,7 @@ let initialState = {
 
 let profileReducer = (state = initialState, action: PostActionsTypes): ProfileReducerType => {
   switch (action.type) {
-    case (ADD_POST): {
+    case ADD_POST:
       let newPost = {
         id: 5,
         message: state.newTextPost,
@@ -79,19 +79,16 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
         newTextPost: '',
         posts: [...state.posts, newPost]
       }
-    }
-    case(UPDATE_POST): {
+    case UPDATE_POST:
       return {
         ...state,
         newTextPost: action.updatedPost,
-      }
-    };
-    case (SET_USER_PROFILE): {
+      };
+    case SET_USER_PROFILE:
       return {
         ...state,
         profile: state.profile = action.profile
-      }
-    }
+      };
     default:
       return state;
   }
