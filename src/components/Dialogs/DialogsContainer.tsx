@@ -1,32 +1,33 @@
 import React from 'react';
-import {RootStoreType} from '../../redux/redux-store';
-import {addMessageActionCreator, MessageActionsTypes, updateMessageActionCreator} from '../../redux/dialogs-reducer';
+import {AppStateType} from '../../redux/redux-store';
+import {addMessage, DialogType, MessageType, updateMessage} from '../../redux/dialogs-reducer';
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 
 // type DialogsPropsType = {
 //     store: RootStoreType
 // }
-
-const mapStateToProps = (state: RootStoreType) => {
-    return {
-        dialogsPage: state.dialogsPage,
-    }
+type MapStatePropsType = {
+  dialogsPage: {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    newTextMessage: string
+  }
 }
-const mapDispatchToProps = (dispatch: (action: MessageActionsTypes) => void) => {
-    return {
-        addMessage: () => dispatch(addMessageActionCreator()),
-        updateMessage: (updatedMessageText: string) =>
-            dispatch(updateMessageActionCreator(updatedMessageText))
-    }
+type MapDispatchPropsType = {
+  addMessage: () => void
+  updateMessage: (message: string) => void
 }
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+  return {
+    dialogsPage: state.dialogsPage,
+  }
+}
+
+const DialogsContainer = connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
+(mapStateToProps, {addMessage, updateMessage})(Dialogs);
 export default DialogsContainer;
-
-
-
-
 
 
 // const DialogsContainer = function (props: DialogsPropsType) {

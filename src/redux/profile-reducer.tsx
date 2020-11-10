@@ -1,16 +1,29 @@
+import {profileAPI} from '../api/api';
+import { ThunkAction } from 'redux-thunk';
+import {AppStateType} from './redux-store';
+
 export const ADD_POST = 'ADD-POST';
 export const UPDATE_POST = 'UPDATE-POST';
 export const SET_USER_PROFILE = 'SET-USER-PROFILE'
 
-export let addPost = () => ({type: ADD_POST} as const);
-export let updatePost = (post: string) => ({
-  type: UPDATE_POST, updatedPost: post} as const);
-export let setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
-
-
 export type PostActionsTypes = ReturnType<typeof addPost> |
   ReturnType<typeof updatePost> |
   ReturnType<typeof setUserProfile>;
+
+// A c t i o n  C r e a t o r s
+export let addPost = () => ({type: ADD_POST} as const);
+export let updatePost = (post: string) => ({type: UPDATE_POST, updatedPost: post} as const);
+export let setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+
+// T h u n k  C r e a t o r s
+type ThunkType = ThunkAction<void, AppStateType, unknown, PostActionsTypes>
+export const getUserProfileTC = (userId: number): ThunkType => {
+  return (dispatch) => {
+    profileAPI.getUserProfile(Number(userId)).then(data => {
+      dispatch(setUserProfile(data));
+    })
+  }
+}
 
 export type PostType = {
   id: number
