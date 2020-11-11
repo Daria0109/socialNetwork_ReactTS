@@ -1,85 +1,89 @@
 import {connect} from 'react-redux';
 import {
-    followTC,
-    getUsersTC,
-    setCurrentPage,
-    toggleFollowingProgress,
-    unfollowTC,
-    UserType
+  followTC,
+  getUsersTC,
+  setCurrentPage,
+  toggleFollowingProgress,
+  unfollowTC,
+  UserType
 } from '../../redux/users-reducer';
-import {AppStateType } from '../../redux/redux-store';
+import {AppStateType} from '../../redux/redux-store';
 import React from 'react';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
+import {Redirect} from 'react-router-dom';
 
 type MapStatePropsType = {
-    users: Array<UserType>
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-    followingInProgress: Array<number>
+  users: Array<UserType>
+  pageSize: number
+  totalUsersCount: number
+  currentPage: number
+  isFetching: boolean
+  followingInProgress: Array<number>,
+  isAuth: boolean
 }
 type MapDispatchPropsType = {
-    followTC: any
-    unfollowTC: any
-    setCurrentPage: (pageNumber: number) => void
-    toggleFollowingProgress: (isFollowingProgress: boolean, userId: number) => void
-    getUsersTC: any
+  followTC: any
+  unfollowTC: any
+  setCurrentPage: (pageNumber: number) => void
+  toggleFollowingProgress: (isFollowingProgress: boolean, userId: number) => void
+  getUsersTC: any,
 }
 export type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
-    componentDidMount() {
-        this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
-        // this.props.toggleIsFetching(true);
-        // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-        //     this.props.toggleIsFetching(false);
-        //     this.props.setUsers(data.items);
-        //     this.props.setTotalUsersCount(data.totalCount)
-        // })
-    }
+  componentDidMount() {
+    this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
+    // this.props.toggleIsFetching(true);
+    // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
+    //     this.props.toggleIsFetching(false);
+    //     this.props.setUsers(data.items);
+    //     this.props.setTotalUsersCount(data.totalCount)
+    // })
+  }
 
-    setCurrentPage = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.getUsersTC(pageNumber, this.props.pageSize);
-    }
+  setCurrentPage = (pageNumber: number) => {
+    this.props.setCurrentPage(pageNumber);
+    this.props.getUsersTC(pageNumber, this.props.pageSize);
+  }
 
-    render() {
-        return (
-            <>
-                {this.props.isFetching ? <Preloader/> : null}
-                <Users totalUsersCount={this.props.totalUsersCount}
-                       pageSize={this.props.pageSize}
-                       currentPage={this.props.currentPage}
-                       setCurrentPage={this.setCurrentPage}
-                       users={this.props.users}
-                       follow={this.props.followTC}
-                       unfollow={this.props.unfollowTC}
-                       followingInProgress={this.props.followingInProgress}
-                       toggleFollowingProgress={this.props.toggleFollowingProgress}/>
-            </>
-        )
-    }
+  render() {
+    if (!this.props.isAuth) return <Redirect to='/login'/>
+    return (
+      <>
+        {this.props.isFetching ? <Preloader/> : null}
+        <Users totalUsersCount={this.props.totalUsersCount}
+               pageSize={this.props.pageSize}
+               currentPage={this.props.currentPage}
+               setCurrentPage={this.setCurrentPage}
+               users={this.props.users}
+               follow={this.props.followTC}
+               unfollow={this.props.unfollowTC}
+               followingInProgress={this.props.followingInProgress}
+               toggleFollowingProgress={this.props.toggleFollowingProgress}/>
+      </>
+    )
+  }
 }
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
-    }
+  return {
+    users: state.usersPage.users,
+    pageSize: state.usersPage.pageSize,
+    totalUsersCount: state.usersPage.totalUsersCount,
+    currentPage: state.usersPage.currentPage,
+    isFetching: state.usersPage.isFetching,
+    followingInProgress: state.usersPage.followingInProgress,
+    isAuth: state.auth.isAuth
+  }
 }
 
 export default connect<MapStatePropsType,
   MapDispatchPropsType, {},
   AppStateType>(mapStateToProps, {
-    setCurrentPage,
-    toggleFollowingProgress,
-    getUsersTC,
-    followTC,
-    unfollowTC
+  setCurrentPage,
+  toggleFollowingProgress,
+  getUsersTC,
+  followTC,
+  unfollowTC
 })(UsersContainer);

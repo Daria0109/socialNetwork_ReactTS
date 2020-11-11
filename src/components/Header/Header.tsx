@@ -14,7 +14,7 @@ const Header = function (props: HeaderPropsType) {
             <img className={c.logo} src="https://www.freelogodesign.org/Content/img/logo-samples/flooop.png" alt="Logo" />
           </div>
           <div className={c.login_block}>
-            {props.isAuth ? <NavLink to='/login'>{props.login}</NavLink> : "LogIn"}
+            {props.isAuth ? props.login : <NavLink to='/login'>LogIn</NavLink>}
             </div>
           </header>
     )
