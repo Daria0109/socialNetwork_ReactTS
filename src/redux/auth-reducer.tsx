@@ -5,9 +5,9 @@ import {AppStateType} from './redux-store';
 const SET_AUTH_USER_DATA = "SET-AUTH-USER-DATA";
 
 // A c t i o n  C r e a t o r s
-export type AuthActionsType = ReturnType<typeof setAuthUserData>
 export const setAuthUserData = (id: number, email: string, login: string) => ({
   type: SET_AUTH_USER_DATA, data: {id, email, login} as const})
+export type AuthActionsType = ReturnType<typeof setAuthUserData>
 
 // T h u n k  C r e a t o r s
 type ThunkType = ThunkAction<void, AppStateType, unknown,AuthActionsType>
