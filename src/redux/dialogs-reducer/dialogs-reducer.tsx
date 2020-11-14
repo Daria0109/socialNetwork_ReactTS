@@ -1,13 +1,12 @@
 const ADD_MESSAGE = 'ADD-MESSAGE';
 const UPDATE_MESSAGE = 'UPDATE-MESSAGE';
 
-export type MessageActionsTypes = ReturnType<typeof addMessage> |
-  ReturnType<typeof updateMessage>;
 export let addMessage = () => ({type: ADD_MESSAGE} as const);
 export let updateMessage = (message: string) => ({
   type: UPDATE_MESSAGE,
-  updatedMessage: message
-} as const);
+  updatedMessage: message} as const);
+export type MessageActionsTypes = ReturnType<typeof addMessage>
+  | ReturnType<typeof updateMessage>;
 
 export type DialogType = {
   id: number

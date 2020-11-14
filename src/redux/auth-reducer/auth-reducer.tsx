@@ -1,6 +1,6 @@
-import {headerAPI} from '../api/api';
+import {headerAPI} from '../../api/api';
 import { ThunkAction } from 'redux-thunk';
-import {AppStateType} from './redux-store';
+import {AppStateType} from '../redux-store';
 
 const SET_AUTH_USER_DATA = "SET-AUTH-USER-DATA";
 

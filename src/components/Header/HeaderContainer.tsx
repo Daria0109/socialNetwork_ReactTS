@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import {getAuthUserDataTC} from '../../redux/auth-reducer';
+import {getAuthUserDataTC} from '../../redux/auth-reducer/auth-reducer';
 
 type MapStatePropsType = {
   login: string | null

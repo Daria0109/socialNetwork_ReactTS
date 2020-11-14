@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {DataType, FollowDataType} from '../redux/users-reducer';
-import {AuthType} from '../redux/auth-reducer'
+import {AuthType} from '../redux/auth-reducer/auth-reducer'
 import {ProfileType} from '../redux/profile-reducer';
 
 
