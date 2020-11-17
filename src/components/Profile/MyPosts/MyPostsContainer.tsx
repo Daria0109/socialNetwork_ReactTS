@@ -3,7 +3,7 @@ import {AppStateType} from '../../../redux/redux-store';
 import {
     addPost, ProfileInitialStateType,
     updatePost
-} from '../../../redux/profile-reducer';
+} from '../../../redux/profile-reducer/profile-reducer';
 import MyPosts from './MyPosts';
 import {connect} from 'react-redux';
 

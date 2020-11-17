@@ -6,7 +6,7 @@ import {
   toggleFollowingProgress,
   unfollowTC,
   UserType
-} from '../../redux/users-reducer';
+} from '../../redux/users-reducer/users-reducer';
 import {AppStateType} from '../../redux/redux-store';
 import React, {ComponentType} from 'react';
 import Users from './Users';

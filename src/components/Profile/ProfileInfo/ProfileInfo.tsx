@@ -1,8 +1,9 @@
 import React from 'react';
 import c from './ProfileInfo.module.css'
 import Preloader from '../../common/Preloader/Preloader';
-import {ProfileType} from '../../../redux/profile-reducer';
+import {ProfileType} from '../../../redux/profile-reducer/profile-reducer';
 import userPhoto from '../../../assets/images/default-avatar.png'
+import ProfileStatus from './ProfileStatus/ProfileStatus';
 
 type ProfileInfoPropsType = {
   profile: ProfileType
@@ -18,6 +19,7 @@ const ProfileInfo = function (props: ProfileInfoPropsType) {
       <div className={c.image_item}>
         <img className={c.image} src="https://miro.medium.com/max/8576/0*zBu6EBAwjXXXHz-z" alt="Image"/>
       </div>
+      <ProfileStatus status="Hello, friends"/>
       <div className={c.description}>
         <img className={c.avatar} src={props.profile.photos.large ? props.profile.photos.large : userPhoto} alt="Avatar"/>
         <div>{props.profile.aboutMe}</div>

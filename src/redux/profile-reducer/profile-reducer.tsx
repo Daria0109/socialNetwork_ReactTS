@@ -1,6 +1,6 @@
-import {profileAPI} from '../api/api';
+import {profileAPI} from '../../api/api';
 import { ThunkAction } from 'redux-thunk';
-import {AppStateType} from './redux-store';
+import {AppStateType} from '../redux-store';
 
 export const ADD_POST = 'ADD-POST';
 export const UPDATE_POST = 'UPDATE-POST';
@@ -12,7 +12,7 @@ export type PostActionsTypes = ReturnType<typeof addPost> |
 
 // A c t i o n  C r e a t o r s
 export let addPost = () => ({type: ADD_POST} as const);
-export let updatePost = (post: string) => ({type: UPDATE_POST, updatedPost: post} as const);
+export let updatePost = (post: string) => ({type: UPDATE_POST, post} as const);
 export let setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 
 // T h u n k  C r e a t o r s
@@ -40,13 +40,13 @@ export type ProfileType = {
   aboutMe: string
   contacts: {
     facebook: string
-    website: string
+    website: null | string
     vk: string
     twitter: string
     instagram: string
-    youtube: string
+    youtube: null | string
     github: string
-    mainLink: string
+    mainLink: null | string
   },
   lookingForAJob: boolean
   lookingForAJobDescription: string
@@ -89,18 +89,18 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
       }
       return {
         ...state,
-        newTextPost: '',
-        posts: [...state.posts, newPost]
+        posts: [...state.posts, newPost],
+        newTextPost: ''
       }
     case UPDATE_POST:
       return {
         ...state,
-        newTextPost: action.updatedPost,
+        newTextPost: action.post,
       };
     case SET_USER_PROFILE:
       return {
         ...state,
-        profile: state.profile = action.profile
+        profile: action.profile
       };
     default:
       return state;

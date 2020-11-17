@@ -1,7 +1,7 @@
-import {usersAPI} from '../api/api';
+import {usersAPI} from '../../api/api';
 import {Dispatch} from 'react';
 import { ThunkAction } from 'redux-thunk';
-import {AppStateType} from './redux-store';
+import {AppStateType} from '../redux-store';
 
 export const FOLLOW = 'FOLLOW';
 export const UNFOLLOW = 'UNFOLLOW';
@@ -83,7 +83,7 @@ export type UserType = {
     small: null | undefined
     large: null | undefined
   }
-  status: null
+  status: null | string
   followed: boolean
 };
 export type UsersInitialStateType = {
@@ -133,22 +133,22 @@ let usersReducer = (state: UsersInitialStateType = initialState, action: UsersAc
     case SET_USERS:
       return {
         ...state,
-        users: state.users = action.users
+        users: action.users
       }
     case SET_CURRENT_PAGE:
       return {
         ...state,
-        currentPage: state.currentPage = action.pageNumber
+        currentPage: action.pageNumber
       }
     case SET_TOTAL_USERS_COUNT:
       return {
         ...state,
-        totalUsersCount: state.totalUsersCount = action.totalUsers
+        totalUsersCount: action.totalUsers
       }
     case TOGGLE_IS_FETCHING:
       return {
         ...state,
-        isFetching: state.isFetching = action.isFetching
+        isFetching: action.isFetching
       }
 
     case TOGGLE_FOLLOWING_PROGRESS:
