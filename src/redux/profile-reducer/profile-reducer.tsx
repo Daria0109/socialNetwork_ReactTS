@@ -1,26 +1,45 @@
 import {profileAPI} from '../../api/api';
-import { ThunkAction } from 'redux-thunk';
+import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 
-export const ADD_POST = 'ADD-POST';
-export const UPDATE_POST = 'UPDATE-POST';
-export const SET_USER_PROFILE = 'SET-USER-PROFILE'
+const ADD_POST = 'ADD-POST';
+const UPDATE_POST = 'UPDATE-POST';
+const SET_USER_PROFILE = 'SET-USER-PROFILE';
+const SET_STATUS = 'SET-STATUS'
 
 export type PostActionsTypes = ReturnType<typeof addPost> |
   ReturnType<typeof updatePost> |
-  ReturnType<typeof setUserProfile>;
+  ReturnType<typeof setUserProfile> |
+  ReturnType<typeof setStatus>;
 
 // A c t i o n  C r e a t o r s
-export let addPost = () => ({type: ADD_POST} as const);
-export let updatePost = (post: string) => ({type: UPDATE_POST, post} as const);
-export let setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+export const addPost = () => ({type: ADD_POST} as const);
+export const updatePost = (post: string) => ({type: UPDATE_POST, post} as const);
+export const setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
 
 // T h u n k  C r e a t o r s
 type ThunkType = ThunkAction<void, AppStateType, unknown, PostActionsTypes>
 export const getUserProfileTC = (userId: number): ThunkType => {
   return (dispatch) => {
-    profileAPI.getUserProfile(Number(userId)).then(data => {
+    profileAPI.getUserProfile(userId).then(data => {
       dispatch(setUserProfile(data));
+    })
+  }
+}
+export const getStatus = (userId: number): ThunkType => {
+  return (dispatch) => {
+    profileAPI.getStatus(userId).then(data => {
+      dispatch(setStatus(data))
+    })
+  }
+}
+export const updateStatus = (status: string): ThunkType => {
+  return (dispatch) => {
+    profileAPI.updateStatus(status).then(data => {
+      if (data.resultCode === 0) {
+        dispatch(setStatus(status))
+      }
     })
   }
 }
@@ -35,6 +54,7 @@ export type ProfileInitialStateType = {
   posts: Array<PostType>
   newTextPost: string
   profile: ProfileType
+  status: string
 }
 export type ProfileType = {
   aboutMe: string
@@ -75,7 +95,8 @@ let initialState = {
     }
   ],
   newTextPost: '',
-  profile: {} as ProfileType
+  profile: {} as ProfileType,
+  status: ''
 }
 
 let profileReducer = (state = initialState, action: PostActionsTypes): ProfileReducerType => {
@@ -102,6 +123,11 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
         ...state,
         profile: action.profile
       };
+    case SET_STATUS:
+      return {
+        ...state,
+        status: action.status
+      }
     default:
       return state;
   }

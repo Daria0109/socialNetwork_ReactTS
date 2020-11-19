@@ -5,16 +5,20 @@ import {ProfileType} from '../../redux/profile-reducer/profile-reducer';
 
 
 export type ProfilePropsType = {
-    profile: ProfileType
+  profile: ProfileType
+  status: string
+  updateStatus: (status: string) => void
 }
 
 const Profile = function (props: ProfilePropsType) {
 
-    return (
-        <div>
-            <ProfileInfo profile={props.profile}/>
-            <MyPostsContainer/>
-        </div>
-    )
+  return (
+    <div>
+      <ProfileInfo profile={props.profile}
+                   status={props.status}
+                   updateStatus={props.updateStatus}/>
+      <MyPostsContainer/>
+    </div>
+  )
 }
 export default Profile

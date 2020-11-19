@@ -52,10 +52,22 @@ export const headerAPI: HeaderAPIType = {
 
 type ProfileAPIType = {
   getUserProfile: (userId: number) => Promise<ProfileType>
+  getStatus: (userId: number) => Promise<string>
+  updateStatus: (status: string) => Promise<FollowDataType>
 }
 export const profileAPI: ProfileAPIType = {
   getUserProfile(userId) {
     return instance.get(`profile/${userId}`).then(response => {
+      return response.data
+    })
+  },
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`).then(response => {
+      return response.data
+    })
+  },
+  updateStatus(status) {
+    return instance.put(`profile/status`, {status}).then(response => {
       return response.data
     })
   }

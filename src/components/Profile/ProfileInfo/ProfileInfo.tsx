@@ -7,9 +7,9 @@ import ProfileStatus from './ProfileStatus/ProfileStatus';
 
 type ProfileInfoPropsType = {
   profile: ProfileType
+  status: string
+  updateStatus: (status: string) => void
 }
-
-
 const ProfileInfo = function (props: ProfileInfoPropsType) {
   if (!Object.keys(props.profile).length) {
     return <Preloader/>
@@ -19,7 +19,8 @@ const ProfileInfo = function (props: ProfileInfoPropsType) {
       <div className={c.image_item}>
         <img className={c.image} src="https://miro.medium.com/max/8576/0*zBu6EBAwjXXXHz-z" alt="Image"/>
       </div>
-      <ProfileStatus status="Hello, friends"/>
+      <ProfileStatus status={props.status}
+                     updateStatus={props.updateStatus}/>
       <div className={c.description}>
         <img className={c.avatar} src={props.profile.photos.large ? props.profile.photos.large : userPhoto} alt="Avatar"/>
         <div>{props.profile.aboutMe}</div>
