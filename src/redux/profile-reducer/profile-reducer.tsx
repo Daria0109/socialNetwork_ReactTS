@@ -3,18 +3,15 @@ import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_POST = 'UPDATE-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS'
 
 export type PostActionsTypes = ReturnType<typeof addPost> |
-  ReturnType<typeof updatePost> |
   ReturnType<typeof setUserProfile> |
   ReturnType<typeof setStatus>;
 
 // A c t i o n  C r e a t o r s
-export const addPost = () => ({type: ADD_POST} as const);
-export const updatePost = (post: string) => ({type: UPDATE_POST, post} as const);
+export const addPost = (post: string) => ({type: ADD_POST, post} as const);
 export const setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
 
@@ -52,7 +49,6 @@ export type PostType = {
 };
 export type ProfileInitialStateType = {
   posts: Array<PostType>
-  newTextPost: string
   profile: ProfileType
   status: string
 }
@@ -94,7 +90,6 @@ let initialState = {
       avatar: 'https://i.pinimg.com/originals/5a/f1/dd/5af1ddcde07255e8a999abcc061dd201.png'
     }
   ],
-  newTextPost: '',
   profile: {} as ProfileType,
   status: ''
 }
@@ -104,20 +99,14 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
     case ADD_POST:
       let newPost = {
         id: 5,
-        message: state.newTextPost,
+        message: action.post,
         likesCount: 0,
         avatar: 'https://finance.kz/static/images/default-avatar.png'
       }
       return {
         ...state,
         posts: [...state.posts, newPost],
-        newTextPost: ''
       }
-    case UPDATE_POST:
-      return {
-        ...state,
-        newTextPost: action.post,
-      };
     case SET_USER_PROFILE:
       return {
         ...state,

@@ -1,12 +1,7 @@
 const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_MESSAGE = 'UPDATE-MESSAGE';
 
-export let addMessage = () => ({type: ADD_MESSAGE} as const);
-export let updateMessage = (message: string) => ({
-  type: UPDATE_MESSAGE,
-  updatedMessage: message} as const);
-export type MessageActionsTypes = ReturnType<typeof addMessage>
-  | ReturnType<typeof updateMessage>;
+export let addMessage = (message: string) => ({type: ADD_MESSAGE, message} as const);
+export type MessageActionsTypes = ReturnType<typeof addMessage>;
 
 export type DialogType = {
   id: number
@@ -20,7 +15,6 @@ export type MessageType = {
 export type DialogsInitialStateType = {
   dialogs: Array<DialogType>
   messages: Array<MessageType>
-  newTextMessage: string
 }
 
 export type DialogsReducerType = typeof initialState;
@@ -39,8 +33,7 @@ let initialState = {
     {id: 1, text: 'Hi!'},
     {id: 2, text: 'How are you!'},
     {id: 3, text: 'Hello, my friend!'}
-  ],
-  newTextMessage: ''
+  ]
 }
 
 let dialogsReducer = (state: DialogsReducerType = initialState, action: MessageActionsTypes): DialogsReducerType => {
@@ -48,22 +41,15 @@ let dialogsReducer = (state: DialogsReducerType = initialState, action: MessageA
     case (ADD_MESSAGE): {
       return {
         ...state,
-        newTextMessage: '',
         messages: [...state.messages,
           {
             id: 4,
-            text: state.newTextMessage
+            text: action.message
           }
         ]
       }
     }
-    case (UPDATE_MESSAGE): {
-      return {
-        ...state,
-        newTextMessage: action.updatedMessage,
-      }
-    }
-    default:
+   default:
       return state;
   }
 }

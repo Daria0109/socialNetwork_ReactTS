@@ -10,9 +10,16 @@
     font-size: 18px;
     color: navy;
     font-weight: bold;
+
 }
 .login_block a {
     text-decoration: none;
+}
+.login {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .logo {
     width: 80px;

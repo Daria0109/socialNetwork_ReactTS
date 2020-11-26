@@ -9,7 +9,7 @@ type FriendsPropsType = {
 const Friends = function (props: FriendsPropsType) {
 
     const friendElement = props.friends.map(friend =>
-        <Friend id={friend.id} name={friend.name} avatar={friend.avatar}/>)
+        <Friend key={friend.id} id={friend.id} name={friend.name} avatar={friend.avatar}/>)
 
     return (
         <div className={c.friends}>

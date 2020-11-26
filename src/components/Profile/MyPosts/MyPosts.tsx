@@ -1,39 +1,49 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import c from './MyPosts.module.css'
 import Post from './Post/Post';
 import {ProfileReducerType} from '../../../redux/profile-reducer/profile-reducer'
+import {Field, reduxForm, InjectedFormProps} from 'redux-form';
+import {maxLengthValidatorCreator, required} from '../../utilities/validators/validators';
+import {Textarea} from '../../common/FormControls/FormControls';
+
+const maxLength10 = maxLengthValidatorCreator(10)
+
+const PostForm = reduxForm<any, any>({form: 'post'})((props: InjectedFormProps<any>) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <div>
+        <Field component={Textarea} name='post' placeholder='New post...' validate={[required, maxLength10]}/>
+      </div>
+      <div>
+        <button>Add Post</button>
+      </div>
+    </form>
+  )
+})
 
 type MyPostsPropsType = {
-    profilePage: ProfileReducerType
-    addPost: () => void
-    updatePost: (updatedPostText: string) => void
+  profilePage: ProfileReducerType
+  addPost: (post: string) => void
 }
-
+type PostValuePropsType = {
+  post: string
+}
 const MyPosts = function (props: MyPostsPropsType) {
 
-    const onAddPost = () => {
-        props.addPost();
-    }
+  const onAddPost = (value: PostValuePropsType) => {
+    props.addPost(value.post);
+  }
 
-    const onUpdatePost =(e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updatePost(e.currentTarget.value)
-    }
-
-    const postsElement = props.profilePage.posts.map(post =>
-        <Post id={post.id}
-              avatar={post.avatar}
-              message={post.message}
-              likesCount={post.likesCount}/>)
-    return (
-        <div className={c.posts}>
-            My posts
-            <div>
-                <textarea value={props.profilePage.newTextPost}
-                          onChange={onUpdatePost}></textarea>
-                <button onClick={onAddPost}>Add Post</button>
-            </div>
-            {postsElement}
-        </div>
-    )
+  const postsElement = props.profilePage.posts.map(post =>
+    <Post key={post.id} id={post.id}
+          avatar={post.avatar}
+          message={post.message}
+          likesCount={post.likesCount}/>)
+  return (
+    <div className={c.posts}>
+      <PostForm onSubmit={onAddPost}/>
+      {postsElement}
+    </div>
+  )
 }
 export default MyPosts

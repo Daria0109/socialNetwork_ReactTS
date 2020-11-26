@@ -1,24 +1,19 @@
 import React, {ComponentType} from 'react';
 import {AppStateType} from '../../redux/redux-store';
-import {addMessage, DialogType, MessageType, updateMessage} from '../../redux/dialogs-reducer/dialogs-reducer';
+import {addMessage, DialogType, MessageType} from '../../redux/dialogs-reducer/dialogs-reducer';
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
 
-// type DialogsPropsType = {
-//     store: RootStoreType
-// }
 type MapStatePropsType = {
   dialogsPage: {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newTextMessage: string
   }
 }
 type MapDispatchPropsType = {
-  addMessage: () => void
-  updateMessage: (message: string) => void
+  addMessage: (message: string) => void
 }
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
@@ -34,7 +29,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose<ComponentType>(
   connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
-  (mapStateToProps, {addMessage, updateMessage}),
+  (mapStateToProps, {addMessage}),
   withAuthRedirect
 )(Dialogs);
 
