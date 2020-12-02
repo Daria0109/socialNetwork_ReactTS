@@ -13,73 +13,58 @@ const instance = axios.create({
   }
 })
 
-type UsersAPIType = {
-  getUsers: (currentPage: number, pageSize: number) => Promise<DataType>
-  followUsers: (userId: number) => Promise<FollowDataType>
-  unfollowUsers: (userId: number) => Promise<FollowDataType>
-}
-export const usersAPI: UsersAPIType = {
-  getUsers(currentPage, pageSize) {
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+export const usersAPI = {
+  getUsers(currentPage: number, pageSize: number) {
+    return instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
       .then(response => {
       return response.data
     })
   },
-  followUsers(userId) {
-    return instance.post(`follow/${userId}`).then(response => {
+  followUsers(userId: number) {
+    return instance.post<FollowDataType>(`follow/${userId}`).then(response => {
       return response.data
     })
   },
-  unfollowUsers(userId) {
-    return instance.delete(`follow/${userId}`).then(response => {
+  unfollowUsers(userId: number) {
+    return instance.delete<FollowDataType>(`follow/${userId}`).then(response => {
       return response.data
     })
   }
 }
 
 
-type HeaderAPIType = {
-  getAuth: () => Promise<AuthType>
-  login: (email: string, password: string, rememberMe: boolean) => Promise<AuthType>
-  logout: () => Promise<AuthType>
-}
-export const headerAPI: HeaderAPIType = {
+export const headerAPI = {
   getAuth() {
-    return instance.get(`auth/me`).then(response => {
+    return instance.get<AuthType>(`auth/me`).then(response => {
       return response.data
     })
   },
   login(email: string, password: string, rememberMe: boolean) {
-    return instance.post(`/auth/login`, {email, password, rememberMe}).then(response => {
+    return instance.post<AuthType>(`/auth/login`, {email, password, rememberMe}).then(response => {
       return response.data
     })
   },
   logout() {
-    return instance.delete(`/auth/login`).then(response => {
+    return instance.delete<AuthType>(`/auth/login`).then(response => {
       return response.data
     })
   }
 }
 
 
-type ProfileAPIType = {
-  getUserProfile: (userId: number) => Promise<ProfileType>
-  getStatus: (userId: number) => Promise<string>
-  updateStatus: (status: string) => Promise<FollowDataType>
-}
-export const profileAPI: ProfileAPIType = {
-  getUserProfile(userId) {
-    return instance.get(`profile/${userId}`).then(response => {
+export const profileAPI = {
+  getUserProfile(userId: number) {
+    return instance.get<ProfileType>(`profile/${userId}`).then(response => {
       return response.data
     })
   },
-  getStatus(userId) {
-    return instance.get(`profile/status/${userId}`).then(response => {
+  getStatus(userId: number) {
+    return instance.get<string>(`profile/status/${userId}`).then(response => {
       return response.data
     })
   },
-  updateStatus(status) {
-    return instance.put(`profile/status`, {status}).then(response => {
+  updateStatus(status: string) {
+    return instance.put<FollowDataType>(`profile/status`, {status}).then(response => {
       return response.data
     })
   }

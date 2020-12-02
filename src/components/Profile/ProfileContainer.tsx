@@ -51,6 +51,5 @@ export default compose<ComponentType>(
   connect<MapStatePropsType,
   MapDispatchPropsType, {},
   AppStateType>(mapStateToProps, {getUserProfileTC, getStatus, updateStatus}),
-  withRouter,
-  withAuthRedirect
+  withRouter
 )(ProfileContainer)
