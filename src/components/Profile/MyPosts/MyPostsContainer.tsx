@@ -5,21 +5,21 @@ import MyPosts from './MyPosts';
 import {connect} from 'react-redux';
 
 
-type MapStatePropsType = {
-    profilePage: ProfileInitialStateType
-}
-type MapDispatchPropsType = {
-    addPost: (post: string) => void
-}
-const mapStateToProps = (state: AppStateType) => {
-    return {
-        profilePage: state.profilePage,
-    }
-}
-
-const MyPostsContainer = connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
-(mapStateToProps, {addPost})(MyPosts);
-export default MyPostsContainer;
+// type MapStatePropsType = {
+//     profilePage: ProfileInitialStateType
+// }
+// type MapDispatchPropsType = {
+//     addPost: (post: string) => void
+// }
+// const mapStateToProps = (state: AppStateType) => {
+//     return {
+//         profilePage: state.profilePage,
+//     }
+// }
+//
+// const MyPostsContainer = connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
+// (mapStateToProps, {addPost})(MyPosts);
+// export default MyPostsContainer;
 
 
 
