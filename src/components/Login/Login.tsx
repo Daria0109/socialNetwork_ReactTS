@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {reduxForm, InjectedFormProps} from 'redux-form';
-import {Field} from 'redux-form';
 import {maxLengthValidatorCreator, required} from '../utilities/validators/validators';
-import {Input} from '../common/FormControls/FormControls';
+import {createForm, Input} from '../common/FormControls/FormControls';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {login} from '../../redux/auth-reducer/auth-reducer';
@@ -16,15 +15,10 @@ const maxLength20 = maxLengthValidatorCreator(20);
 const LoginForm = reduxForm<any, any>({form: 'login'})((props: InjectedFormProps<LoginValuesPropsType>) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field component={Input} name='email' placeholder='Email...' validate={[required, maxLength20]}/>
-      </div>
-      <div>
-        <Field component={Input} name='password' placeholder='Password...' validate={[required, maxLength20]}/>
-      </div>
-      <div>
-        <Field component='input' type='checkbox' name='rememberMe' placeholder='Password...'/> remember me
-      </div>
+      {createForm(Input, 'email', 'Email...', [required, maxLength20])}
+      {createForm(Input, 'password', 'Password...', [required, maxLength20])}
+      {createForm('input', 'rememberMe', null, [], {type: 'checkbox'}, 'remember me')}
+
       {props.error && <div className={s.errorSubmit}>{props.error}</div>}
       <button>Submit</button>
     </form>
@@ -41,12 +35,12 @@ type LoginPropsType = {
   login: (email: string, password: string, rememberMe: boolean) => void
   isAuth: boolean
 }
-const Login = function (props: LoginPropsType) {
+const Login: FC<LoginPropsType> = function ({login, isAuth}) {
   const onSubmit = (formData: LoginValuesPropsType) => {
-    props.login(formData.email, formData.password, formData.rememberMe)
+    login(formData.email, formData.password, formData.rememberMe)
   }
 
-    if (props.isAuth) {
+    if (isAuth) {
       return <Redirect to='/profile'/>
     }
 

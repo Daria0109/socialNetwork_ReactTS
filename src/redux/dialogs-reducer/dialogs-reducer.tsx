@@ -1,4 +1,4 @@
-const ADD_MESSAGE = 'ADD-MESSAGE';
+const ADD_MESSAGE = 'samurai-network/dialogs/ADD-MESSAGE';
 
 export let addMessage = (message: string) => ({type: ADD_MESSAGE, message} as const);
 export type MessageActionsTypes = ReturnType<typeof addMessage>;
@@ -38,7 +38,7 @@ let initialState = {
 
 let dialogsReducer = (state: DialogsReducerType = initialState, action: MessageActionsTypes): DialogsReducerType => {
   switch (action.type) {
-    case (ADD_MESSAGE): {
+    case ADD_MESSAGE:
       return {
         ...state,
         messages: [...state.messages,
@@ -48,7 +48,6 @@ let dialogsReducer = (state: DialogsReducerType = initialState, action: MessageA
           }
         ]
       }
-    }
    default:
       return state;
   }

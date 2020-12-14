@@ -9,26 +9,32 @@ const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.0/`,
   withCredentials: true,
   headers: {
-    "API-KEY": "bcb04db8-51e3-4a52-abad-1b8669db5951"
+    'API-KEY': 'bcb04db8-51e3-4a52-abad-1b8669db5951'
   }
 })
 
 export const usersAPI = {
-  getUsers(currentPage: number, pageSize: number) {
-    return instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
-      .then(response => {
-      return response.data
-    })
+  // getUsers(currentPage: number, pageSize: number) {
+  //   return instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
+  //     .then(response => {
+  //     return response.data
+  //   })
+  // },
+  async getUsers(currentPage: number, pageSize: number) {
+    let response = await instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
+    let {data} = response;
+    console.log(data)
+    return data
   },
-  followUsers(userId: number) {
-    return instance.post<FollowDataType>(`follow/${userId}`).then(response => {
-      return response.data
-    })
+  async followUsers(userId: number) {
+    let response = await instance.post<FollowDataType>(`follow/${userId}`);
+    let {data} = response;
+    return data
   },
-  unfollowUsers(userId: number) {
-    return instance.delete<FollowDataType>(`follow/${userId}`).then(response => {
-      return response.data
-    })
+  async unfollowUsers(userId: number) {
+    let response = await instance.delete<FollowDataType>(`follow/${userId}`);
+    let {data} = response;
+    return data
   }
 }
 

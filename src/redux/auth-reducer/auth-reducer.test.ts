@@ -11,7 +11,7 @@ beforeEach(() => {
   }
 })
 test('user should be authorized on site', () => {
-  const action = setAuthUserData(12345, "blabla@bla.la", "SomeUser")
+  const action = setAuthUserData(12345, "blabla@bla.la", "SomeUser", true)
   const endState = authReducer(initialState, action);
 
   expect(endState).toEqual({

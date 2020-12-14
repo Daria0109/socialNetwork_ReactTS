@@ -16,7 +16,8 @@ export type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
   render () {
-    return <Header login={this.props.login} isAuth={this.props.isAuth} logout={this.props.logout}/>
+    const {login, isAuth, logout} = this.props;
+    return <Header login={login} isAuth={isAuth} logout={logout}/>
     }
 }
 

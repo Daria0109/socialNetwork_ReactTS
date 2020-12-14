@@ -1,8 +1,8 @@
 import {ThunkAction} from 'redux-thunk';
-import {AppStateType} from '../redux/redux-store'
-import {getAuthUserDataTC} from './auth-reducer/auth-reducer';
+import {AppStateType} from '../redux-store'
+import {getAuthUserDataTC} from '../auth-reducer/auth-reducer';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED-SUCCESS';
+const INITIALIZED_SUCCESS = 'samurai-network/app/INITIALIZED-SUCCESS';
 
 // A c t i o n  C r e a t o r s
 export const setInitializedSuccess = () => ({type: INITIALIZED_SUCCESS} as const)
@@ -11,13 +11,13 @@ export type AppActionsType = ReturnType<typeof setInitializedSuccess>;
 // T h u n k  C r e a t o r s
 type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 export const initializeApp = (): ThunkType => {
-  return (dispatch) => {
-    let promise = dispatch(getAuthUserDataTC());
-    Promise.all([promise]).then(() => dispatch(setInitializedSuccess()))
+  return async (dispatch) => {
+    await dispatch(getAuthUserDataTC());
+    dispatch(setInitializedSuccess())
   }
 }
 
-type AppInitialStateType = {
+export type AppInitialStateType = {
   initialized: boolean
 }
 

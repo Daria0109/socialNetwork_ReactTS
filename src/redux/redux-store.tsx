@@ -6,7 +6,7 @@ import usersReducer from './users-reducer/users-reducer';
 import authReducer from './auth-reducer/auth-reducer';
 import thunkMiddleware from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form'
-import appReducer from './app-reducer';
+import appReducer from './app-reducer/app-reducer';
 
 
 export type RootStoreType = typeof reducers;

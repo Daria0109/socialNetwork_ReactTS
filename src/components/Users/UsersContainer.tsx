@@ -11,8 +11,6 @@ import {AppStateType} from '../../redux/redux-store';
 import React, {ComponentType} from 'react';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
-import {Redirect} from 'react-router-dom';
-import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
 
 type MapStatePropsType = {
@@ -34,7 +32,8 @@ export type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
-    this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
+    const {getUsersTC, currentPage, pageSize} = this.props;
+    getUsersTC(currentPage, pageSize)
     // this.props.toggleIsFetching(true);
     // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
     //     this.props.toggleIsFetching(false);
@@ -44,23 +43,26 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
   }
 
   setCurrentPage = (pageNumber: number) => {
-    this.props.setCurrentPage(pageNumber);
-    this.props.getUsersTC(pageNumber, this.props.pageSize);
+    const {setCurrentPage, getUsersTC, pageSize} = this.props;
+    setCurrentPage(pageNumber);
+    getUsersTC(pageNumber, pageSize);
   }
 
   render() {
+    const {isFetching, totalUsersCount, pageSize, currentPage, users,
+      followTC, unfollowTC, followingInProgress, toggleFollowingProgress} = this.props;
     return (
       <>
-        {this.props.isFetching ? <Preloader/> : null}
-        <Users totalUsersCount={this.props.totalUsersCount}
-               pageSize={this.props.pageSize}
-               currentPage={this.props.currentPage}
+        {isFetching ? <Preloader/> : null}
+        <Users totalUsersCount={totalUsersCount}
+               pageSize={pageSize}
+               currentPage={currentPage}
                setCurrentPage={this.setCurrentPage}
-               users={this.props.users}
-               follow={this.props.followTC}
-               unfollow={this.props.unfollowTC}
-               followingInProgress={this.props.followingInProgress}
-               toggleFollowingProgress={this.props.toggleFollowingProgress}/>
+               users={users}
+               follow={followTC}
+               unfollow={unfollowTC}
+               followingInProgress={followingInProgress}
+               toggleFollowingProgress={toggleFollowingProgress}/>
       </>
     )
   }

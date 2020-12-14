@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import c from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
@@ -29,17 +29,17 @@ const MessageForm = reduxForm<any, any>({form: 'message'})((props: InjectedFormP
 type MessageValuePropsType = {
   message: string
 }
-const Dialogs = function (props: DialogsPropsType) {
+const Dialogs: FC<DialogsPropsType> = function ({dialogsPage, addMessage}) {
 
   const onAddMessage = (value: MessageValuePropsType) => {
-    props.addMessage(value.message);
+    addMessage(value.message);
   }
 
-  const dialogElement = props.dialogsPage.dialogs.map(d =>
+  const dialogElement = dialogsPage.dialogs.map(d =>
     <DialogItem key={d.id} name={d.name} id={d.id} avatar={d.avatar}/>)
 
-  const messageElement = props.dialogsPage.messages.map(m =>
-    <Message key={m.id} text={m.text} id={m.id}/>)
+  const messageElement = dialogsPage.messages.map(m =>
+    <Message key={m.id} text={m.text}/>)
 
   return (
     <div className={c.dialogs}>

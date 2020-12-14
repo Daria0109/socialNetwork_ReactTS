@@ -2,42 +2,39 @@ import {profileAPI} from '../../api/api';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET-USER-PROFILE';
-const SET_STATUS = 'SET-STATUS'
-
-export type PostActionsTypes = ReturnType<typeof addPost> |
-  ReturnType<typeof setUserProfile> |
-  ReturnType<typeof setStatus>;
+const ADD_POST = 'samurai-network/profile/ADD-POST';
+const SET_USER_PROFILE = 'samurai-network/profile/SET-USER-PROFILE';
+const SET_STATUS = 'samurai-network/profile/SET-STATUS'
 
 // A c t i o n  C r e a t o r s
 export const addPost = (post: string) => ({type: ADD_POST, post} as const);
 export const setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
+export type PostActionsTypes = ReturnType<typeof addPost> |
+  ReturnType<typeof setUserProfile> |
+  ReturnType<typeof setStatus>;
+
 
 // T h u n k  C r e a t o r s
 type ThunkType = ThunkAction<void, AppStateType, unknown, PostActionsTypes>
 export const getUserProfileTC = (userId: number): ThunkType => {
-  return (dispatch) => {
-    profileAPI.getUserProfile(userId).then(data => {
+  return async (dispatch) => {
+    const data = await profileAPI.getUserProfile(userId);
       dispatch(setUserProfile(data));
-    })
   }
 }
 export const getStatus = (userId: number): ThunkType => {
-  return (dispatch) => {
-    profileAPI.getStatus(userId).then(data => {
+  return async (dispatch) => {
+    const data = await profileAPI.getStatus(userId);
       dispatch(setStatus(data))
-    })
   }
 }
 export const updateStatus = (status: string): ThunkType => {
-  return (dispatch) => {
-    profileAPI.updateStatus(status).then(data => {
+  return async (dispatch) => {
+    const data = await profileAPI.updateStatus(status);
       if (data.resultCode === 0) {
         dispatch(setStatus(status))
       }
-    })
   }
 }
 

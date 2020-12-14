@@ -4,7 +4,7 @@ import {addMessage, DialogType, MessageType} from '../../redux/dialogs-reducer/d
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {withAuthRedirect} from '../../hoc/WithAuthRedirect';
-import { compose } from 'redux';
+import {compose} from 'redux';
 
 type MapStatePropsType = {
   dialogsPage: {

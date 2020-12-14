@@ -1,14 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 
 export type MessagePropsType = {
     text: string
-    id: number
 }
-const Message = function (props: MessagePropsType) {
+const Message: FC<MessagePropsType> = function ({text}) {
     return (
-        <div>{props.text}</div>
-
+        <div>{text}</div>
     )
 }
 export default Message;

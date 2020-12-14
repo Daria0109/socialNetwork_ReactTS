@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPosts from './MyPosts/MyPosts';
 import {ProfileType} from '../../redux/profile-reducer/profile-reducer';
@@ -10,12 +10,12 @@ export type ProfilePropsType = {
   updateStatus: (status: string) => void
 }
 
-const Profile = function (props: ProfilePropsType) {
+const Profile: FC<ProfilePropsType> = function ({profile, status, updateStatus}) {
    return (
     <div>
-      <ProfileInfo profile={props.profile}
-                   status={props.status}
-                   updateStatus={props.updateStatus}/>
+      <ProfileInfo profile={profile}
+                   status={status}
+                   updateStatus={updateStatus}/>
       <MyPosts/>
     </div>
   )

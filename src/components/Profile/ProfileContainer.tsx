@@ -26,18 +26,19 @@ export type ProfileContainerPropsType = RouteComponentProps<PathParamType>
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
   componentDidMount() {
-    let userId = this.props.match.params.userId;
+    const {match, getUserProfileTC, getStatus} = this.props;
+    let userId = match.params.userId;
     if (!userId) {
       userId = "12281";
     }
-    this.props.getUserProfileTC(Number(userId));
-    this.props.getStatus(Number(userId))
+    getUserProfileTC(Number(userId));
+    getStatus(Number(userId))
   }
-
   render() {
-    return <Profile profile={this.props.profile}
-                    status={this.props.status}
-                    updateStatus={this.props.updateStatus}/>
+    const {profile, status, updateStatus} = this.props;
+    return <Profile profile={profile}
+                    status={status}
+                    updateStatus={updateStatus}/>
     }
 }
 
