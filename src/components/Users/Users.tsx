@@ -9,6 +9,7 @@ export type UsersPropsType = {
   totalUsersCount: number
   pageSize: number
   currentPage: number
+  portionSize: number
   setCurrentPage: (pageNumber: number) => void
   users: Array<UserType>
   unfollow: (userId: number) => FollowUnfollowType
@@ -19,14 +20,15 @@ export type UsersPropsType = {
 
 
 const Users: FC<UsersPropsType> = function ({totalUsersCount, pageSize, currentPage,
-                                              setCurrentPage, users, followingInProgress,
+                                              portionSize, setCurrentPage, users, followingInProgress,
                                               unfollow, follow}) {
   return (
     <div className={s.users}>
       <Paginator totalUsersCount={totalUsersCount}
                  pageSize={pageSize}
                  currentPage={currentPage}
-                 setCurrentPage={setCurrentPage}/>
+                 setCurrentPage={setCurrentPage}
+                 portionSize={portionSize}/>
       {
         users.map(u => <User key={u.id}
                              user={u}
