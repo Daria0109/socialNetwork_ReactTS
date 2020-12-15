@@ -1,24 +1,24 @@
 import React from 'react';
-import {Route, withRouter, RouteComponentProps, RouteChildrenProps, RouteProps} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
-import UsersContainer from './components/Users/UsersContainer';
-import ProfileContainer, {PathParamType} from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import {connect} from 'react-redux';
 import {AppStateType} from './redux/redux-store';
 import {initializeApp} from './redux/app-reducer/app-reducer';
-import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
+import {withSuspense} from './hoc/withSuspense';
 
-// export interface RouteProps {
-//   path: string
-// }
+// import DialogsContainer from './components/Dialogs/DialogsContainer';
+// import UsersContainer from './components/Users/UsersContainer';
+// import ProfileContainer from './components/Profile/ProfileContainer';
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 
 type MapStatePropsType = {
   initialized: boolean
@@ -41,9 +41,9 @@ class App extends React.Component<AppPropsType> {
         <HeaderContainer/>
         <Navbar/>
         <div className='app-wrapper-content'>
-          <Route render={() => <ProfileContainer/>} path='/profile/:userId?'/>
-          <Route render={() => <DialogsContainer/>} path='/dialogs'/>
-          <Route render={() => <UsersContainer/>} path="/users"/>
+          <Route render={withSuspense(ProfileContainer)} path='/profile/:userId?'/>
+          <Route render={withSuspense(DialogsContainer)} path='/dialogs'/>
+          <Route render={withSuspense(UsersContainer)} path="/users"/>
           <Route render={() => <News/>} path='/news'/>
           <Route render={() => <Music/>} path='/music'/>
           <Route render={() => <Settings/>} path='/settings'/>
