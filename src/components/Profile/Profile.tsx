@@ -8,14 +8,19 @@ export type ProfilePropsType = {
   profile: ProfileType
   status: string
   updateStatus: (status: string) => void
+  isOwner: boolean
+  savePhoto: (photo: File) => void
 }
 
-const Profile: FC<ProfilePropsType> = function ({profile, status, updateStatus}) {
+const Profile: FC<ProfilePropsType> = function ({profile, status, updateStatus,
+                                                  isOwner, savePhoto}) {
    return (
     <div>
-      <ProfileInfo profile={profile}
+      <ProfileInfo isOwner={isOwner}
+                   profile={profile}
                    status={status}
-                   updateStatus={updateStatus}/>
+                   updateStatus={updateStatus}
+                   savePhoto={savePhoto}/>
       <MyPosts/>
     </div>
   )

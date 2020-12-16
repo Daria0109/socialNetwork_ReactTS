@@ -1,10 +1,9 @@
 import axios from 'axios';
 import {DataType, FollowDataType} from '../redux/users-reducer/users-reducer';
 import {AuthType} from '../redux/auth-reducer/auth-reducer'
-import {ProfileType} from '../redux/profile-reducer/profile-reducer';
+import {ProfileType, ResponseProfilePhotoType} from '../redux/profile-reducer/profile-reducer';
 
 
-type InstanceType = typeof instance;
 const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.0/`,
   withCredentials: true,
@@ -73,6 +72,14 @@ export const profileAPI = {
     return instance.put<FollowDataType>(`profile/status`, {status}).then(response => {
       return response.data
     })
+  },
+  uploadPhoto(photo: File) {
+    let formData = new FormData();
+    formData.append('image', photo)
+    return instance.put<ResponseProfilePhotoType>('profile/photo',
+      formData, {
+      headers: {'Content-Type': 'multipart/form-data'}
+    }).then(response => response.data)
   }
 }
 

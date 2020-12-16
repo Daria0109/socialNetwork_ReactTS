@@ -113,7 +113,8 @@ let initialState = {
   currentPage: 1,
   portionSize: 10,
   isFetching: true,
-  followingInProgress: [] as Array<number>
+  followingInProgress: [] as Array<number>,
+
 }
 
 let usersReducer = (state: UsersInitialStateType = initialState, action: UsersActionsType): UsersReducerType => {
