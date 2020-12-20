@@ -44,8 +44,8 @@ export const headerAPI = {
       return response.data
     })
   },
-  login(email: string, password: string, rememberMe: boolean) {
-    return instance.post<AuthType>(`/auth/login`, {email, password, rememberMe}).then(response => {
+  login(email: string, password: string, rememberMe: boolean, captcha: string) {
+    return instance.post<AuthType>(`/auth/login`, {email, password, rememberMe, captcha}).then(response => {
       return response.data
     })
   },
@@ -86,5 +86,9 @@ export const profileAPI = {
   }
 }
 
-
+export const securityAPI = {
+  getCaptcha() {
+    return instance.get<{url: string}>('security/get-captcha-url').then(res => res.data)
+  }
+}
 
