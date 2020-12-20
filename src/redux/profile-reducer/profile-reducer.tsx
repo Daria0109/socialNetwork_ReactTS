@@ -1,25 +1,32 @@
 import {profileAPI} from '../../api/api';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
+import {stopSubmit} from 'redux-form';
+import {FormAction} from 'redux-form/lib/actions';
+import {AuthActionsType} from '../auth-reducer/auth-reducer';
 
 const ADD_POST = 'samurai-network/profile/ADD-POST';
 const SET_USER_PROFILE = 'samurai-network/profile/SET-USER-PROFILE';
 const SET_STATUS = 'samurai-network/profile/SET-STATUS';
-const SAVE_PHOTO_SUCCESS = 'samurai-network/profile/SAVE_PHOTO_SUCCESS'
+const SAVE_PHOTO_SUCCESS = 'samurai-network/profile/SAVE_PHOTO_SUCCESS';
+const SET_EDIT_MODE_PROFILE = 'samurai-network/profile/SET_EDIT_MODE_PROFILE'
 
 // A c t i o n  C r e a t o r s
 export const addPost = (post: string) => ({type: ADD_POST, post} as const);
 export const setUserProfile = (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
 export const savePhotoSuccess = (photos: PhotosType) => ({type: SAVE_PHOTO_SUCCESS, photos} as const)
+export const setEditModeProfile = (editMode: boolean) => ({type: SET_EDIT_MODE_PROFILE, editMode} as const)
 export type PostActionsTypes = ReturnType<typeof addPost>
   | ReturnType<typeof setUserProfile>
   | ReturnType<typeof setStatus>
-  | ReturnType<typeof savePhotoSuccess>;
+  | ReturnType<typeof savePhotoSuccess>
+  | ReturnType<typeof setEditModeProfile>;
+type ThunkActionsType = PostActionsTypes | FormAction
 
 
 // T h u n k  C r e a t o r s
-type ThunkType = ThunkAction<void, AppStateType, unknown, PostActionsTypes>
+type ThunkType = ThunkAction<void, AppStateType, unknown, ThunkActionsType>
 export const getUserProfileTC = (userId: number): ThunkType => {
   return async (dispatch) => {
     const data = await profileAPI.getUserProfile(userId);
@@ -48,6 +55,19 @@ export const savePhoto = (photo: File): ThunkType => {
     }
   }
 }
+export const saveProfile = (profile: ProfileType): ThunkType => {
+  return async (dispatch, getState: () => AppStateType) => {
+    const data = await profileAPI.updateProfile(profile);
+    if (data.resultCode === 0) {
+      const userId = getState().auth.id;
+      await dispatch(getUserProfileTC(userId as number))
+      dispatch(setEditModeProfile(false))
+    } else {
+      const message = data.messages[0]
+      dispatch(stopSubmit('edit-profile', {_error: message}))
+    }
+  }
+}
 
 
 
@@ -62,18 +82,20 @@ export type PhotosType = {
   large: string | null
   small: string | null
 }
+export type ContactsType = {[key: string]: string}
 export type ProfileType = {
   aboutMe: string
   contacts: {
+    [key: string]: string,
     facebook: string
-    website: null | string
+    website: string
     vk: string
     twitter: string
     instagram: string
-    youtube: null | string
+    youtube: string
     github: string
-    mainLink: null | string
-  },
+    mainLink: string
+  } ,
   lookingForAJob: boolean
   lookingForAJobDescription: string
   fullName: string
@@ -89,6 +111,7 @@ export type ProfileInitialStateType = {
   posts: Array<PostType>
   profile: ProfileType
   status: string
+  editMode: boolean
 }
 export type ProfileReducerType = typeof initialState;
 
@@ -109,7 +132,8 @@ let initialState = {
     }
   ],
   profile: {} as ProfileType,
-  status: ''
+  status: '',
+  editMode: false
 }
 
 let profileReducer = (state = initialState, action: PostActionsTypes): ProfileReducerType => {
@@ -142,6 +166,11 @@ let profileReducer = (state = initialState, action: PostActionsTypes): ProfileRe
           ...state.profile,
           photos: action.photos
         }
+      }
+    case SET_EDIT_MODE_PROFILE:
+      return {
+        ...state,
+        editMode: action.editMode
       }
     default:
       return state;

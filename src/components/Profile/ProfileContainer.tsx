@@ -6,7 +6,7 @@ import {
   getStatus,
   getUserProfileTC,
   ProfileType,
-  savePhoto,
+  savePhoto, saveProfile, setEditModeProfile,
   updateStatus
 } from '../../redux/profile-reducer/profile-reducer';
 import {withRouter, RouteComponentProps} from 'react-router-dom';
@@ -16,12 +16,15 @@ type MapStatePropsType = {
   profile: ProfileType
   status: string
   authorizedUserId: number | null
+  editMode: boolean
 }
 type MapDispatchPropsType = {
   getUserProfileTC: (userId: number) => void
   getStatus: (userId: number) => void
   updateStatus: (status: string) => void
   savePhoto: (photo: File) => void
+  saveProfile: (profile: ProfileType) => void
+  setEditModeProfile: (editMode: boolean) => void
 }
 export type PathParamType = {
   userId: string
@@ -55,25 +58,30 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
   }
 
   render() {
-    const {profile, status, updateStatus, match, savePhoto} = this.props;
+    const {profile, status, updateStatus, match, savePhoto, saveProfile, editMode, setEditModeProfile} = this.props;
     return <Profile isOwner={!match.params.userId}
                     profile={profile}
                     status={status}
                     updateStatus={updateStatus}
-                    savePhoto={savePhoto}/>
+                    savePhoto={savePhoto}
+                    saveProfile={saveProfile}
+                    editMode={editMode}
+                    setEditModeProfile={setEditModeProfile}/>
   }
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
-  authorizedUserId: state.auth.id
+  authorizedUserId: state.auth.id,
+  editMode: state.profilePage.editMode
 })
 
 
 export default compose<ComponentType>(
   connect<MapStatePropsType,
     MapDispatchPropsType, {},
-    AppStateType>(mapStateToProps, {getUserProfileTC, getStatus, updateStatus, savePhoto}),
+    AppStateType>(mapStateToProps,
+    {getUserProfileTC, getStatus, updateStatus, savePhoto, saveProfile, setEditModeProfile}),
   withRouter
 )(ProfileContainer)

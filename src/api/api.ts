@@ -69,8 +69,8 @@ export const profileAPI = {
     })
   },
   updateStatus(status: string) {
-    return instance.put<FollowDataType>(`profile/status`, {status}).then(response => {
-      return response.data
+    return instance.put<FollowDataType>(`profile/status`, {status}).then(res => {
+      return res.data
     })
   },
   uploadPhoto(photo: File) {
@@ -80,6 +80,11 @@ export const profileAPI = {
       formData, {
       headers: {'Content-Type': 'multipart/form-data'}
     }).then(response => response.data)
+  },
+  updateProfile(profile: ProfileType) {
+    return instance.put<FollowDataType>(`profile`, profile).then(res => res.data)
   }
 }
+
+
 
