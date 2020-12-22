@@ -1,7 +1,5 @@
 import axios from 'axios';
-import {DataType, FollowDataType} from '../redux/users-reducer/users-reducer';
-import {AuthType} from '../redux/auth-reducer/auth-reducer'
-import {ProfileType, ResponseProfilePhotoType} from '../redux/profile-reducer/profile-reducer';
+import {ApiResponseType, AuthDataType, PhotosType, ProfileType, UsersResponseDataType} from '../redux/types/types';
 
 
 const instance = axios.create({
@@ -13,44 +11,38 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-  // getUsers(currentPage: number, pageSize: number) {
-  //   return instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
-  //     .then(response => {
-  //     return response.data
-  //   })
-  // },
-  async getUsers(currentPage: number, pageSize: number) {
-    let response = await instance.get<DataType>(`users?page=${currentPage}&count=${pageSize}`)
+   async getUsers(currentPage: number, pageSize: number) {
+    let response = await instance.get<UsersResponseDataType>(`users?page=${currentPage}&count=${pageSize}`)
     let {data} = response;
     console.log(data)
     return data
   },
   async followUsers(userId: number) {
-    let response = await instance.post<FollowDataType>(`follow/${userId}`);
+    let response = await instance.post<ApiResponseType<{}>>(`follow/${userId}`);
     let {data} = response;
     return data
   },
   async unfollowUsers(userId: number) {
-    let response = await instance.delete<FollowDataType>(`follow/${userId}`);
+    let response = await instance.delete<ApiResponseType<{}>>(`follow/${userId}`);
     let {data} = response;
     return data
   }
 }
 
 
-export const headerAPI = {
+export const authAPI = {
   getAuth() {
-    return instance.get<AuthType>(`auth/me`).then(response => {
+    return instance.get<ApiResponseType<AuthDataType>>(`auth/me`).then(response => {
       return response.data
     })
   },
   login(email: string, password: string, rememberMe: boolean, captcha: string) {
-    return instance.post<AuthType>(`/auth/login`, {email, password, rememberMe, captcha}).then(response => {
+    return instance.post<ApiResponseType<{}>>(`/auth/login`, {email, password, rememberMe, captcha}).then(response => {
       return response.data
     })
   },
   logout() {
-    return instance.delete<AuthType>(`/auth/login`).then(response => {
+    return instance.delete<ApiResponseType<{}>>(`/auth/login`).then(response => {
       return response.data
     })
   }
@@ -69,20 +61,20 @@ export const profileAPI = {
     })
   },
   updateStatus(status: string) {
-    return instance.put<FollowDataType>(`profile/status`, {status}).then(res => {
+    return instance.put<ApiResponseType<{}>>(`profile/status`, {status}).then(res => {
       return res.data
     })
   },
   uploadPhoto(photo: File) {
     let formData = new FormData();
     formData.append('image', photo)
-    return instance.put<ResponseProfilePhotoType>('profile/photo',
+    return instance.put<ApiResponseType<{photos: PhotosType}>>('profile/photo',
       formData, {
       headers: {'Content-Type': 'multipart/form-data'}
     }).then(response => response.data)
   },
   updateProfile(profile: ProfileType) {
-    return instance.put<FollowDataType>(`profile`, profile).then(res => res.data)
+    return instance.put<ApiResponseType<{}>>(`profile`, profile).then(res => res.data)
   }
 }
 

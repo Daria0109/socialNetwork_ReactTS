@@ -1,7 +1,7 @@
 import React from 'react';
 import c from './Friends.module.css'
 import Friend from './Friend/Friend';
-import {FriendType} from '../../../redux/navbar-reducer/navbar-reducer';
+import {FriendType} from '../../../redux/types/types';
 
 type FriendsPropsType = {
         friends: Array<FriendType>

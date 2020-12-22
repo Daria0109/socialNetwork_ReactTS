@@ -1,24 +1,12 @@
+import {DialogType, MessageType} from '../types/types';
+
 const ADD_MESSAGE = 'samurai-network/dialogs/ADD-MESSAGE';
 
+// A c t i o n  C r e a t o r s
 export let addMessage = (message: string) => ({type: ADD_MESSAGE, message} as const);
-export type MessageActionsTypes = ReturnType<typeof addMessage>;
+export type DialogsActionsTypes = ReturnType<typeof addMessage>;
 
-export type DialogType = {
-  id: number
-  name: string
-  avatar: string
-}
-export type MessageType = {
-  id: number
-  text: string
-}
-export type DialogsInitialStateType = {
-  dialogs: Array<DialogType>
-  messages: Array<MessageType>
-}
-
-export type DialogsReducerType = typeof initialState;
-
+// I n i t i a l  S t a t e
 let initialState = {
   dialogs: [
     {id: 1, name: 'Dimych', avatar: 'https://finance.kz/static/images/default-avatar.png'},
@@ -28,15 +16,18 @@ let initialState = {
     {id: 5, name: 'Sasha', avatar: 'https://finance.kz/static/images/default-avatar.png'},
     {id: 6, name: 'Ignat', avatar: 'https://finance.kz/static/images/default-avatar.png'},
     {id: 7, name: 'Valera', avatar: 'https://finance.kz/static/images/default-avatar.png'}
-  ],
+  ] as Array<DialogType>,
   messages: [
     {id: 1, text: 'Hi!'},
     {id: 2, text: 'How are you!'},
     {id: 3, text: 'Hello, my friend!'}
-  ]
+  ] as Array <MessageType>
 }
+export type DialogsInitialStateType = typeof initialState;
 
-let dialogsReducer = (state: DialogsReducerType = initialState, action: MessageActionsTypes): DialogsReducerType => {
+
+// R e d u c e r
+let dialogsReducer = (state = initialState, action: DialogsActionsTypes): DialogsInitialStateType => {
   switch (action.type) {
     case ADD_MESSAGE:
       return {

@@ -1,6 +1,6 @@
 import React from 'react';
-import {ProfileType} from '../../../redux/profile-reducer/profile-reducer';
 import SocialContact from './SocialContact';
+import {ProfileType} from '../../../redux/types/types';
 
 type ProfileDataPropsType = {
   data: ProfileType

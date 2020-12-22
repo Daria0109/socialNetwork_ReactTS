@@ -4,13 +4,13 @@ import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
   getStatus,
-  getUserProfileTC,
-  ProfileType,
-  savePhoto, saveProfile, setEditModeProfile,
+  getUserProfileTC, profileActions,
+  savePhoto, saveProfile,
   updateStatus
 } from '../../redux/profile-reducer/profile-reducer';
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 import {compose} from 'redux';
+import {ProfileType} from '../../redux/types/types';
 
 type MapStatePropsType = {
   profile: ProfileType
@@ -77,7 +77,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   editMode: state.profilePage.editMode
 })
 
-
+const setEditModeProfile = profileActions.setEditModeProfile;
 export default compose<ComponentType>(
   connect<MapStatePropsType,
     MapDispatchPropsType, {},

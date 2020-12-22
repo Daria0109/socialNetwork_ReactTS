@@ -2,13 +2,13 @@ import React, {FC} from 'react';
 import c from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import {DialogsReducerType} from '../../redux/dialogs-reducer/dialogs-reducer';
 import {reduxForm, Field, InjectedFormProps} from 'redux-form';
 import {Textarea} from '../common/FormControls/FormControls';
 import {maxLengthValidatorCreator, required} from '../utilities/validators/validators';
+import {DialogsInitialStateType} from '../../redux/dialogs-reducer/dialogs-reducer';
 
 type DialogsPropsType = {
-  dialogsPage: DialogsReducerType
+  dialogsPage: DialogsInitialStateType
   addMessage: (message: string) => void
 }
 const maxLength10 = maxLengthValidatorCreator(10);

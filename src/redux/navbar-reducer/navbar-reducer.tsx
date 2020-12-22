@@ -1,12 +1,5 @@
-export type NavbarReducerType = typeof initialState;
-export type NavbarInitialStateType = {
-    friends: Array<FriendType>
-}
-export type FriendType = {
-    id: number
-    name: string
-    avatar: string
-}
+import {FriendType} from '../types/types';
+
 
 let initialState = {
     friends: [
@@ -17,10 +10,11 @@ let initialState = {
         {id: 5, name: 'Sasha', avatar: 'https://finance.kz/static/images/default-avatar.png'},
         {id: 6, name: 'Ignat', avatar: 'https://finance.kz/static/images/default-avatar.png'},
         {id: 7, name: 'Valera', avatar: 'https://finance.kz/static/images/default-avatar.png'}
-    ]
+    ] as Array<FriendType>
 }
+type NavbarInitialStateType = typeof initialState;
 
-let navbarReducer = (state = initialState, action: any):NavbarReducerType => {
+let navbarReducer = (state = initialState, action: any):NavbarInitialStateType => {
 return state;
 }
 

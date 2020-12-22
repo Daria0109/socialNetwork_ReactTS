@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import s from './Users.module.css';
-import {FollowUnfollowType, UserType} from '../../redux/users-reducer/users-reducer';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
+import {FollowUnfollowType, UserType} from '../../redux/types/types';
 
 
 export type UsersPropsType = {

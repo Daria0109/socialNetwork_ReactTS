@@ -17,14 +17,14 @@ export const initializeApp = (): ThunkType => {
   }
 }
 
-export type AppInitialStateType = {
-  initialized: boolean
-}
-
-const initialState: AppInitialStateType = {
+// I n i t i a l  S t a t e
+const initialState = {
   initialized: false
 }
+type AppInitialStateType = typeof initialState;
 
+
+// R e d u s e r
 const appReducer = (state = initialState, action: AppActionsType): AppInitialStateType => {
   switch (action.type) {
     case INITIALIZED_SUCCESS:

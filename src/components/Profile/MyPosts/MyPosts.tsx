@@ -1,12 +1,7 @@
 import React from 'react';
 import c from './MyPosts.module.css'
 import Post from './Post/Post';
-import {
-  addPost,
-  PostType,
-  ProfileInitialStateType,
-  ProfileReducerType
-} from '../../../redux/profile-reducer/profile-reducer'
+import {profileActions, ProfileInitialStateType} from '../../../redux/profile-reducer/profile-reducer'
 import {Field, reduxForm, InjectedFormProps} from 'redux-form';
 import {maxLengthValidatorCreator, required} from '../../utilities/validators/validators';
 import {Textarea} from '../../common/FormControls/FormControls';
@@ -42,7 +37,7 @@ const MyPosts = React.memo(() =>  {
   const profilePage = useSelector<AppStateType, ProfileInitialStateType>(state => state.profilePage);
 
   const onAddPost = (value: PostValuePropsType) => {
-    dispatch(addPost(value.post));
+    dispatch(profileActions.addPost(value.post));
   }
 
   const postsElement = profilePage.posts.map(post =>

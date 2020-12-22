@@ -1,6 +1,6 @@
 import React from 'react';
 import c from './Post.module.css'
-import {PostType} from '../../../../redux/profile-reducer/profile-reducer';
+import {PostType} from '../../../../redux/types/types';
 
 const Post = React.memo((props: PostType) => {
         return (

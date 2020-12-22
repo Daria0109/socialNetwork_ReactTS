@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import Friends from './Friends';
 import {AppStateType} from '../../../redux/redux-store';
-import {FriendType} from '../../../redux/navbar-reducer/navbar-reducer';
+import {FriendType} from '../../../redux/types/types';
 
 type MapStatePropsType = {
     friends: Array<FriendType>

@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from './Users.module.css';
 import {NavLink} from 'react-router-dom';
 import userPhoto from '../../assets/images/default-avatar.png';
-import {FollowUnfollowType, UserType} from '../../redux/users-reducer/users-reducer';
+import {FollowUnfollowType, UserType} from '../../redux/types/types';
 
 type UserPropsType = {
   user: UserType

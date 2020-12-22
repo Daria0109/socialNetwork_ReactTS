@@ -2,16 +2,14 @@ import {connect} from 'react-redux';
 import {
   followTC,
   getUsersTC,
-  setCurrentPage,
-  toggleFollowingProgress,
-  unfollowTC,
-  UserType
+  unfollowTC, usersActions,
 } from '../../redux/users-reducer/users-reducer';
 import {AppStateType} from '../../redux/redux-store';
 import React, {ComponentType} from 'react';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
+import {UserType} from '../../redux/types/types';
 
 type MapStatePropsType = {
   users: Array<UserType>
@@ -81,6 +79,9 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     portionSize: state.usersPage.portionSize
   }
 }
+
+const setCurrentPage = usersActions.setCurrentPage;
+const toggleFollowingProgress = usersActions.toggleFollowingProgress;
 
 export default compose<ComponentType>(
   connect<MapStatePropsType,
