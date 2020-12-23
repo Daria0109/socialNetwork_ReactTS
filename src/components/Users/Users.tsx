@@ -1,8 +1,9 @@
-import React, {FC} from 'react';
+import React from 'react';
 import s from './Users.module.css';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
-import {FollowUnfollowType, UserType} from '../../redux/types/types';
+import {UserType} from '../../redux/types/types';
+import {UsersThunkType} from '../../redux/users-reducer/users-reducer';
 
 
 export type UsersPropsType = {
@@ -12,14 +13,14 @@ export type UsersPropsType = {
   portionSize: number
   setCurrentPage: (pageNumber: number) => void
   users: Array<UserType>
-  unfollow: (userId: number) => FollowUnfollowType
-  follow: (userId: number) => FollowUnfollowType
+  follow: (userId: number) => UsersThunkType
+  unfollow: (userId: number) => UsersThunkType
   followingInProgress: Array<number>
   toggleFollowingProgress: (isFollowingProgress: boolean, userId: number) => void
 }
 
 
-const Users: FC<UsersPropsType> = function ({totalUsersCount, pageSize, currentPage,
+const Users: React.FC<UsersPropsType> = function ({totalUsersCount, pageSize, currentPage,
                                               portionSize, setCurrentPage, users, followingInProgress,
                                               unfollow, follow}) {
   return (

@@ -69,13 +69,18 @@ export type UserType = {
   status: Nullable<string>
   followed: boolean
 };
-export type FollowUnfollowType = {
-  type: string
-  userId: number
-}
+
 
 
 // API
+export enum ResultCodes {
+  Success = 0,
+  Error = 1,
+}
+export enum ResultCodeForCaptcha {
+  CaptchaIsRequired = 10
+}
+
 export type AuthDataType = {
   id: number
   email: string
@@ -83,7 +88,7 @@ export type AuthDataType = {
 }
 export type ApiResponseType<T> = {
   data: T
-  resultCode: number
+  resultCode: ResultCodes | ResultCodeForCaptcha
   messages: Array<string>
 }
 export type UsersResponseDataType = {

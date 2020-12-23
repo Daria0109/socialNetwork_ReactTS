@@ -1,6 +1,6 @@
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store'
-import {getAuthUserDataTC} from '../auth-reducer/auth-reducer';
+import {getAuthUserData} from '../auth-reducer/auth-reducer';
 
 const INITIALIZED_SUCCESS = 'samurai-network/app/INITIALIZED-SUCCESS';
 
@@ -9,10 +9,10 @@ export const setInitializedSuccess = () => ({type: INITIALIZED_SUCCESS} as const
 export type AppActionsType = ReturnType<typeof setInitializedSuccess>;
 
 // T h u n k  C r e a t o r s
-type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionsType>
-export const initializeApp = (): ThunkType => {
+export type AppThunkType = ThunkAction<void, AppStateType, unknown, AppActionsType>
+export const initializeApp = (): AppThunkType => {
   return async (dispatch) => {
-    await dispatch(getAuthUserDataTC());
+    await dispatch(getAuthUserData());
     dispatch(setInitializedSuccess())
   }
 }

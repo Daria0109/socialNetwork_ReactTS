@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
   getStatus,
-  getUserProfileTC, profileActions,
+  getUserProfile, profileActions, ProfileThunkType,
   savePhoto, saveProfile,
   updateStatus
 } from '../../redux/profile-reducer/profile-reducer';
@@ -19,11 +19,11 @@ type MapStatePropsType = {
   editMode: boolean
 }
 type MapDispatchPropsType = {
-  getUserProfileTC: (userId: number) => void
-  getStatus: (userId: number) => void
-  updateStatus: (status: string) => void
-  savePhoto: (photo: File) => void
-  saveProfile: (profile: ProfileType) => void
+  getUserProfile: (userId: number) => ProfileThunkType
+  getStatus: (userId: number) => ProfileThunkType
+  updateStatus: (status: string) => ProfileThunkType
+  savePhoto: (photo: File) => ProfileThunkType
+  saveProfile: (profile: ProfileType) => ProfileThunkType
   setEditModeProfile: (editMode: boolean) => void
 }
 export type PathParamType = {
@@ -35,7 +35,7 @@ export type ProfileContainerPropsType = RouteComponentProps<PathParamType>
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
   refreshProfile() {
-    const {match, getUserProfileTC, getStatus} = this.props;
+    const {match, getUserProfile, getStatus} = this.props;
     let userId = Number(match.params.userId);
     if (!userId) {
       userId = this.props.authorizedUserId as number;
@@ -43,7 +43,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         this.props.history.push('/login')
       }
     }
-    getUserProfileTC(userId);
+    getUserProfile(userId);
     getStatus(userId)
   }
 
@@ -82,6 +82,6 @@ export default compose<ComponentType>(
   connect<MapStatePropsType,
     MapDispatchPropsType, {},
     AppStateType>(mapStateToProps,
-    {getUserProfileTC, getStatus, updateStatus, savePhoto, saveProfile, setEditModeProfile}),
+    {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile, setEditModeProfile}),
   withRouter
 )(ProfileContainer)

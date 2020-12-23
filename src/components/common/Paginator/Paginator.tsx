@@ -8,7 +8,7 @@ type PaginatorPropsType = {
   setCurrentPage: (pageNumber: number) => void
   portionSize: number
 }
-const Paginator: FC<PaginatorPropsType> = ({
+const Paginator: React.FC<PaginatorPropsType> = ({
                                              totalUsersCount, pageSize, currentPage,
                                              setCurrentPage, portionSize = 10
                                            }) => {
