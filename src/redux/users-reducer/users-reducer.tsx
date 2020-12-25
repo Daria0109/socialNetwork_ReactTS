@@ -3,7 +3,7 @@ import {Dispatch} from 'react';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 import {updateObjInArray} from '../../components/utilities/helpers/object-helpers';
-import {ActionsType, ApiResponseType, ResultCodes, UserType} from '../types/types';
+import {ApiResponseType, InferActionsTypes, ResultCodes, UserType} from '../types/types';
 
 
 enum actions {
@@ -28,7 +28,7 @@ export const usersActions = {
     type: actions.TOGGLE_FOLLOWING_PROGRESS, isFollowingProgress, userId
   } as const)
 }
-export type UsersActionsType = ReturnType<ActionsType<typeof usersActions>>;
+export type UsersActionsType = InferActionsTypes<typeof usersActions>;
 
 
 // T h u n k  C r e a t o r s
@@ -45,7 +45,7 @@ export const getUsers = (currentPage: number, pageSize: number): UsersThunkType 
 const followUnfollowFlow = async (dispatch: Dispatch<UsersActionsType>, userId: number,
                                   apiMethod: (userId: number) => Promise<ApiResponseType<{}>>,
                                   actionCreator: (userId: number) =>
-                                    ReturnType<typeof usersActions.follow> | ReturnType<typeof usersActions.unfollow>) => {
+                                  ReturnType<typeof usersActions.follow> | ReturnType<typeof usersActions.unfollow>) => {
   dispatch(usersActions.toggleFollowingProgress(true, userId));
   let result = await apiMethod(userId);
   if (result.resultCode === ResultCodes.Success) {

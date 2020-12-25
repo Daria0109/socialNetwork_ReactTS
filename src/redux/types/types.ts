@@ -1,5 +1,8 @@
 export type Nullable<T> = null | T;
-export type ActionsType<T> = T extends {[key: string]: infer U} ? U : never
+
+// A c t i o n   C r e a t o r s
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never;
+export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
 
 // A u t h
 

@@ -3,7 +3,7 @@ import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 import {stopSubmit} from 'redux-form';
 import {FormAction} from 'redux-form/lib/actions';
-import {ActionsType, PhotosType, PostType, ProfileType, ResultCodes} from '../types/types';
+import {InferActionsTypes, PhotosType, PostType, ProfileType, ResultCodes} from '../types/types';
 
 enum actions {
   ADD_POST = 'samurai-network/profile/ADD-POST',
@@ -21,7 +21,7 @@ export const profileActions = {
   setEditModeProfile: (editMode: boolean) => ({type: actions.SET_EDIT_MODE_PROFILE, editMode} as const)
 }
 
-export type ProfileActionsType = ReturnType<ActionsType<typeof profileActions>>
+export type ProfileActionsType = InferActionsTypes<typeof profileActions>
 type ThunkActionsType = ProfileActionsType | FormAction
 
 
