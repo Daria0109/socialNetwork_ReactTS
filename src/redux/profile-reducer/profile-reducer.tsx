@@ -1,9 +1,9 @@
-import {profileAPI} from '../../api/api';
+import {profileAPI, ResultCodes} from '../../api/api';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from '../redux-store';
 import {stopSubmit} from 'redux-form';
 import {FormAction} from 'redux-form/lib/actions';
-import {InferActionsTypes, PhotosType, PostType, ProfileType, ResultCodes} from '../types/types';
+import {InferActionsTypes, PhotosType, PostType, ProfileType, ThunkType} from '../types/types';
 
 enum actions {
   ADD_POST = 'samurai-network/profile/ADD-POST',
@@ -24,9 +24,8 @@ export const profileActions = {
 export type ProfileActionsType = InferActionsTypes<typeof profileActions>
 type ThunkActionsType = ProfileActionsType | FormAction
 
-
 // T h u n k  C r e a t o r s
-export type ProfileThunkType = ThunkAction<void, AppStateType, unknown, ThunkActionsType>
+export type ProfileThunkType = ThunkType<ThunkActionsType>
 export const getUserProfile = (userId: number): ProfileThunkType => {
   return async (dispatch) => {
     const data = await profileAPI.getUserProfile(userId);

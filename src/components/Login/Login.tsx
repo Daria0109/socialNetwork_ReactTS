@@ -15,7 +15,7 @@ type LoginFormOwnPropsType = {
 }
 
 const maxLength20 = maxLengthValidatorCreator(20);
-const LoginForm: DecoratedComponentClass<LoginFormValuesPropsType, DecoratedFormProps<LoginFormValuesPropsType, LoginFormOwnPropsType, string>> =
+const LoginForm: DecoratedComponentClass<LoginFormValuesPropsType, DecoratedFormProps<LoginFormValuesPropsType, LoginFormOwnPropsType>> =
   reduxForm<LoginFormValuesPropsType, LoginFormOwnPropsType>({form: 'login'})(
     ({handleSubmit, captchaUrl, error}) => {
   return (

@@ -1,23 +1,19 @@
-import React, {FC} from 'react';
+import React from 'react';
 import c from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import {reduxForm, Field, InjectedFormProps} from 'redux-form';
-import {Textarea} from '../common/FormControls/FormControls';
+import {reduxForm, DecoratedComponentClass, DecoratedFormProps} from 'redux-form';
+import {createForm, Textarea} from '../common/FormControls/FormControls';
 import {maxLengthValidatorCreator, required} from '../utilities/validators/validators';
 import {DialogsInitialStateType} from '../../redux/dialogs-reducer/dialogs-reducer';
 
-type DialogsPropsType = {
-  dialogsPage: DialogsInitialStateType
-  addMessage: (message: string) => void
-}
+
 const maxLength10 = maxLengthValidatorCreator(10);
-const MessageForm = reduxForm<any, any>({form: 'message'})((props: InjectedFormProps<MessageValuePropsType>) => {
+const MessageForm: DecoratedComponentClass<MessageFormValuePropsType, DecoratedFormProps<MessageFormValuePropsType>> =
+  reduxForm<MessageFormValuePropsType, {}>({form: 'message'})(({handleSubmit}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field component={Textarea} name='message' placeholder='New message...' validate={[required, maxLength10]}/>
-      </div>
+    <form onSubmit={handleSubmit}>
+      {createForm<MessageFormKeysType>(Textarea, 'message', 'New message...', [required, maxLength10])}
       <div>
         <button>Send</button>
       </div>
@@ -26,12 +22,19 @@ const MessageForm = reduxForm<any, any>({form: 'message'})((props: InjectedFormP
 })
 
 
-type MessageValuePropsType = {
+type DialogsPropsType = {
+  dialogsPage: DialogsInitialStateType
+  addMessage: (message: string) => void
+}
+
+type MessageFormValuePropsType = {
   message: string
 }
-const Dialogs: FC<DialogsPropsType> = function ({dialogsPage, addMessage}) {
+type MessageFormKeysType = Extract<keyof MessageFormValuePropsType, string>
 
-  const onAddMessage = (value: MessageValuePropsType) => {
+const Dialogs: React.FC<DialogsPropsType> = function ({dialogsPage, addMessage}) {
+
+  const onAddMessage = (value: MessageFormValuePropsType) => {
     addMessage(value.message);
   }
 

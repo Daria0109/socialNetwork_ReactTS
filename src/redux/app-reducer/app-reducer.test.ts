@@ -1,4 +1,4 @@
-import appReducer, {AppInitialStateType, setInitializedSuccess} from './app-reducer';
+import appReducer, {appActions, AppInitialStateType} from './app-reducer';
 
 let initialState: AppInitialStateType;
 
@@ -9,7 +9,7 @@ beforeEach(() => {
 })
 
 test('initialization should be successful', () => {
-  const action = setInitializedSuccess();
+  const action = appActions.setInitializedSuccess();
 
   const newState = appReducer(initialState, action);
 

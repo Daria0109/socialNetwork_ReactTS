@@ -1,11 +1,4 @@
-import usersReducer, {
-  follow,
-  setCurrentPage,
-  setTotalUsersCount,
-  setUsers, toggleFollowingProgress, toggleIsFetching,
-  unfollow,
-  UsersInitialStateType
-} from './users-reducer';
+import usersReducer, {usersActions, UsersInitialStateType} from './users-reducer';
 
 let initialState: UsersInitialStateType;
 beforeEach(() => {
@@ -26,12 +19,13 @@ beforeEach(() => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   }
 })
 test('follow user process should be done', () => {
-  const action = follow(12414);
+  const action = usersActions.follow(12414);
   const endStatus = usersReducer(initialState, action);
 
   expect(endStatus).toEqual({
@@ -51,20 +45,21 @@ test('follow user process should be done', () => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   })
 })
 
 test('unfollow user process should be done', () => {
-  const action = unfollow(12414);
+  const action = usersActions.unfollow(12414);
   const endState = usersReducer(initialState, action);
 
   expect(endState).toEqual(initialState);
 })
 
 test('new users should be set', () => {
-  const action = setUsers([{
+  const action = usersActions.setUsers([{
     name: "Ziapa",
     id: 12411,
     uniqueUrlName: null,
@@ -92,13 +87,14 @@ test('new users should be set', () => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   })
 })
 
 test('current page should be set', () => {
-  const action = setCurrentPage(1000);
+  const action = usersActions.setCurrentPage(1000);
   const endState = usersReducer(initialState, action);
 
   expect(endState).toEqual({
@@ -118,13 +114,14 @@ test('current page should be set', () => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1000,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   })
 })
 
 test('total users count should be set', () => {
-  const action = setTotalUsersCount(10);
+  const action = usersActions.setTotalUsersCount(10);
   const endState = usersReducer(initialState, action);
 
   expect(endState).toEqual({
@@ -144,13 +141,14 @@ test('total users count should be set', () => {
     pageSize: 5,
     totalUsersCount: 10,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   })
 })
 
 test('isFetching should be toggled', () => {
-  const action = toggleIsFetching(true);
+  const action = usersActions.toggleIsFetching(true);
   const endState = usersReducer(initialState, action);
 
   expect(endState).toEqual({
@@ -170,13 +168,14 @@ test('isFetching should be toggled', () => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: []
   })
 })
 
 test('following progress should be toggled', () => {
-  const action = toggleFollowingProgress(true, 12414);
+  const action = usersActions.toggleFollowingProgress(true, 12414);
   const endState = usersReducer(initialState, action);
 
   expect(endState).toEqual({
@@ -196,6 +195,7 @@ test('following progress should be toggled', () => {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    portionSize: 10,
     isFetching: true,
     followingInProgress: [12414]
   })

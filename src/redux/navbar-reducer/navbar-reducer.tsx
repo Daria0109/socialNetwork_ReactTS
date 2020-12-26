@@ -1,15 +1,16 @@
 import {FriendType} from '../types/types';
+import defaultAvatar from '../../assets/images/default-avatar.png'
 
 
 let initialState = {
     friends: [
-        {id: 1, name: 'Dimych', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 2, name: 'Viktor', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 3, name: 'Sveta', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 4, name: 'Valera', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 5, name: 'Sasha', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 6, name: 'Ignat', avatar: 'https://finance.kz/static/images/default-avatar.png'},
-        {id: 7, name: 'Valera', avatar: 'https://finance.kz/static/images/default-avatar.png'}
+        {id: 1, name: 'Dimych', avatar: defaultAvatar},
+        {id: 2, name: 'Viktor', avatar: defaultAvatar},
+        {id: 3, name: 'Sveta', avatar: defaultAvatar},
+        {id: 4, name: 'Valera', avatar: defaultAvatar},
+        {id: 5, name: 'Sasha', avatar: defaultAvatar},
+        {id: 6, name: 'Ignat', avatar: defaultAvatar},
+        {id: 7, name: 'Valera', avatar: defaultAvatar}
     ] as Array<FriendType>
 }
 type NavbarInitialStateType = typeof initialState;

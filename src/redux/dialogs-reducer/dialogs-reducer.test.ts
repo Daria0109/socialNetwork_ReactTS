@@ -1,4 +1,4 @@
-import dialogsReducer, {addMessage, DialogsInitialStateType} from './dialogs-reducer';
+import dialogsReducer, {dialogsActions, DialogsInitialStateType} from './dialogs-reducer';
 
 let initialState: DialogsInitialStateType;
 beforeEach(() => {
@@ -17,7 +17,7 @@ beforeEach(() => {
 })
 
 test('new message should be added', () => {
-  const action = addMessage('I want to be a frontend developer');
+  const action = dialogsActions.addMessage('I want to be a frontend developer');
   const endState = dialogsReducer(initialState, action);
 
   expect(endState).toEqual({

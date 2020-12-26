@@ -1,8 +1,8 @@
 import Preloader from '../components/common/Preloader/Preloader';
 import React from 'react';
 
-export const withSuspense = (Component: React.FC) => {
-  return (props: any) => <React.Suspense fallback={<Preloader/>}>
-    <Component {...props}/>
+export function withSuspense<WCP>(WrappedComponent: React.ComponentType<WCP>) {
+  return (props: WCP) => <React.Suspense fallback={<Preloader/>}>
+    <WrappedComponent {...props}/>
   </React.Suspense>
 }

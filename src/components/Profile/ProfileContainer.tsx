@@ -51,7 +51,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     this.refreshProfile()
   }
 
-  componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+  componentDidUpdate(prevProps: ProfileContainerPropsType, prevState: ProfileContainerPropsType) {
     if (this.props.match.params.userId !== prevProps.match.params.userId) {
       this.refreshProfile()
     }
@@ -78,7 +78,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 })
 
 const setEditModeProfile = profileActions.setEditModeProfile;
-export default compose<ComponentType>(
+export default compose<React.ComponentType>(
   connect<MapStatePropsType,
     MapDispatchPropsType, {},
     AppStateType>(mapStateToProps,

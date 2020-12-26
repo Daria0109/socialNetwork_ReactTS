@@ -28,7 +28,7 @@ const ProfileInfo: FC<ProfileInfoPropsType> = function ({profile, status,
   }
 
   const onLoadPhoto = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files!.length) {
+    if (e.target.files?.length) {
       savePhoto(e.target.files![0])
     }
   }

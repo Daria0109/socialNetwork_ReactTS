@@ -38,6 +38,10 @@ type MapDispatchPropsType = {
 }
 type AppPropsType = MapStatePropsType & MapDispatchPropsType
 
+const SuspendedProfile = withSuspense(ProfileContainer);
+const SuspendedDialogs = withSuspense(DialogsContainer);
+const SuspendedUsers = withSuspense(UsersContainer);
+
 class App extends React.Component<AppPropsType> {
   componentDidMount() {
     this.props.initializeApp();
@@ -55,9 +59,9 @@ class App extends React.Component<AppPropsType> {
           <div className='app-wrapper-content'>
             <Switch>
               <Route exact path={PATH.Root} render={() => <Redirect to={PATH.Profile}/>}/>
-              <Route path={PATH.UserProfile} render={withSuspense(ProfileContainer)}/>
-              <Route path={PATH.Dialogs} render={withSuspense(DialogsContainer)}/>
-              <Route path={PATH.Users} render={withSuspense(UsersContainer)}/>
+              <Route path={PATH.UserProfile} render={() => <SuspendedProfile/>}/>
+              <Route path={PATH.Dialogs} render={() => <SuspendedDialogs/>}/>
+              <Route path={PATH.Users} render={() => <SuspendedUsers/>}/>
               <Route path='/news' render={() => <News/>}/>
               <Route path='/music' render={() => <Music/>}/>
               <Route path='/settings' render={() => <Settings/>}/>

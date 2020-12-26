@@ -1,8 +1,16 @@
+import { Action } from "redux";
+import {AppStateType} from '../redux-store';
+import {ThunkAction} from 'redux-thunk';
+
 export type Nullable<T> = null | T;
 
 // A c t i o n   C r e a t o r s
-type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never;
-export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
+
+// T h u n k
+export type ThunkType<A extends Action, P = Promise<void>> = ThunkAction<P, AppStateType, unknown, A>;
+
+
 
 // A u t h
 
@@ -74,28 +82,3 @@ export type UserType = {
 };
 
 
-
-// API
-export enum ResultCodes {
-  Success = 0,
-  Error = 1,
-}
-export enum ResultCodeForCaptcha {
-  CaptchaIsRequired = 10
-}
-
-export type AuthDataType = {
-  id: number
-  email: string
-  login: string
-}
-export type ApiResponseType<T> = {
-  data: T
-  resultCode: ResultCodes | ResultCodeForCaptcha
-  messages: Array<string>
-}
-export type UsersResponseDataType = {
-  items: Array<UserType>
-  totalCount: number
-  error: string
-}

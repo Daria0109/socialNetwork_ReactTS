@@ -2,41 +2,37 @@ import React from 'react';
 import c from './MyPosts.module.css'
 import Post from './Post/Post';
 import {profileActions, ProfileInitialStateType} from '../../../redux/profile-reducer/profile-reducer'
-import {Field, reduxForm, InjectedFormProps} from 'redux-form';
+import {reduxForm, DecoratedComponentClass, DecoratedFormProps} from 'redux-form';
 import {maxLengthValidatorCreator, required} from '../../utilities/validators/validators';
-import {Textarea} from '../../common/FormControls/FormControls';
+import {createForm, Textarea} from '../../common/FormControls/FormControls';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../../redux/redux-store';
 
 const maxLength10 = maxLengthValidatorCreator(10)
 
-const PostForm = React.memo(reduxForm<any, any>({form: 'post'})((props: InjectedFormProps<any>) => {
+const PostForm: DecoratedComponentClass<PostFormValuesPropsType, DecoratedFormProps<PostFormValuesPropsType>> =
+  reduxForm<PostFormValuesPropsType, {}>({form: 'post'})(({handleSubmit}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field component={Textarea} name='post' placeholder='New post...' validate={[required, maxLength10]}/>
-      </div>
+    <form onSubmit={handleSubmit}>
+      {createForm<PostFormKeysType>(Textarea, 'post', 'New post...', [required, maxLength10])}
       <div>
         <button>Add Post</button>
       </div>
     </form>
   )
-}))
+})
 
-// type MyPostsPropsType = {
-//   profilePage: ProfileReducerType
-//   addPost: (post: string) => void
-// }
-type PostValuePropsType = {
+
+type PostFormValuesPropsType = {
   post: string
 }
+type PostFormKeysType = Extract<keyof PostFormValuesPropsType, string>
 
 const MyPosts = React.memo(() =>  {
-  // debugger
   const dispatch = useDispatch();
   const profilePage = useSelector<AppStateType, ProfileInitialStateType>(state => state.profilePage);
 
-  const onAddPost = (value: PostValuePropsType) => {
+  const onAddPost = (value: PostFormValuesPropsType) => {
     dispatch(profileActions.addPost(value.post));
   }
 

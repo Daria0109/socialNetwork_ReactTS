@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import s from './Users.module.css';
 import {NavLink} from 'react-router-dom';
 import userPhoto from '../../assets/images/default-avatar.png';
@@ -11,7 +11,7 @@ type UserPropsType = {
   follow: (userId: number) => UsersThunkType
   unfollow: (userId: number) => UsersThunkType
 }
-const User: FC<UserPropsType> = ({user, followingInProgress, unfollow, follow}) => {
+const User: React.FC<UserPropsType> = ({user, followingInProgress, unfollow, follow}) => {
   return <div key={user.id} className={s.user_block}>
     <div className={s.user_left}>
       <NavLink to={'/profile/' + user.id}>

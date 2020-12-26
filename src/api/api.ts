@@ -1,12 +1,34 @@
 import axios from 'axios';
 import {
-  ApiResponseType,
-  AuthDataType,
   Nullable,
   PhotosType,
-  ProfileType, ResultCodeForCaptcha, ResultCodes,
-  UsersResponseDataType
+  ProfileType, UserType
 } from '../redux/types/types';
+
+
+export enum ResultCodes {
+  Success = 0,
+  Error = 1,
+}
+export enum ResultCodeForCaptcha {
+  CaptchaIsRequired = 10
+}
+export type ApiResponseType<T = {}, RC = ResultCodes> = {
+  data: T
+  messages: Array<string>
+  resultCode: RC
+}
+export type AuthDataType = {
+  id: number
+  email: string
+  login: string
+}
+export type UsersResponseDataType = {
+  items: Array<UserType>
+  totalCount: number
+  error: string
+}
+
 
 
 const instance = axios.create({
@@ -23,11 +45,11 @@ export const usersAPI = {
       .then(res => res.data)
   },
   followUsers(userId: number) {
-    return instance.post<ApiResponseType<{}>>(`follow/${userId}`)
+    return instance.post<ApiResponseType>(`follow/${userId}`)
       .then(res => res.data)
   },
   unfollowUsers(userId: number) {
-    return instance.delete<ApiResponseType<{}>>(`follow/${userId}`)
+    return instance.delete<ApiResponseType>(`follow/${userId}`)
       .then(res => res.data)
   }
 }
@@ -38,11 +60,11 @@ export const authAPI = {
       .then(res => res.data)
   },
   login(email: string, password: string, rememberMe: boolean, captcha: Nullable<string> = null) {
-    return instance.post<ApiResponseType<{userId: number}>>(`/auth/login`, {email, password, rememberMe, captcha})
+    return instance.post<ApiResponseType<{userId: number}, ResultCodes | ResultCodeForCaptcha>>(`/auth/login`, {email, password, rememberMe, captcha})
       .then(res => res.data)
   },
   logout() {
-    return instance.delete<ApiResponseType<{}>>(`/auth/login`)
+    return instance.delete<ApiResponseType>(`/auth/login`)
       .then(res => res.data)
   }
 }
@@ -57,7 +79,7 @@ export const profileAPI = {
       .then(res => res.data)
   },
   updateStatus(status: string) {
-    return instance.put<ApiResponseType<{}>>(`profile/status`, {status})
+    return instance.put<ApiResponseType>(`profile/status`, {status})
       .then(res => res.data)
   },
   uploadPhoto(photo: File) {
@@ -69,7 +91,7 @@ export const profileAPI = {
     }).then(res => res.data)
   },
   updateProfile(profile: ProfileType) {
-    return instance.put<ApiResponseType<{}>>(`profile`, profile)
+    return instance.put<ApiResponseType>(`profile`, profile)
       .then(res => res.data)
   }
 }

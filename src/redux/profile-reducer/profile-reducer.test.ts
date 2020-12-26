@@ -1,4 +1,4 @@
-import profileReducer, {addPost, ProfileInitialStateType, setUserProfile} from './profile-reducer';
+import profileReducer, {profileActions, ProfileInitialStateType} from './profile-reducer';
 
 let initialState: ProfileInitialStateType
 
@@ -39,13 +39,14 @@ beforeEach(() => {
         small: ''
       }
     },
-    status: ''
+    status: '',
+    editMode: false
   }
 })
 
 test('new post should be added', () => {
-  const action = addPost('I want to be a frontend developer');
-  const endState = profileReducer(initialState,action);
+  const action = profileActions.addPost('I want to be a frontend developer');
+  const endState = profileReducer(initialState, action);
 
   expect(endState).toEqual({
     posts: [
@@ -89,30 +90,31 @@ test('new post should be added', () => {
         small: ''
       }
     },
-    status: ''
+    status: '',
+    editMode: false
   })
 })
 
 test('user profile info should be added', () => {
-  const action = setUserProfile({
-    "aboutMe": "я круто чувак 1001%",
-    "contacts": {
-      "facebook": "facebook.com",
-      "website": null,
-      "vk": "vk.com/dimych",
-      "twitter": "https://twitter.com/@sdf",
-      "instagram": "instagra.com/sds",
-      "youtube": null,
-      "github": "github.com",
-      "mainLink": null
+  const action = profileActions.setUserProfile({
+    'aboutMe': 'я круто чувак 1001%',
+    'contacts': {
+      'facebook': 'facebook.com',
+      'website': '',
+      'vk': 'vk.com/dimych',
+      'twitter': 'https://twitter.com/@sdf',
+      'instagram': 'instagra.com/sds',
+      'youtube': '',
+      'github': 'github.com',
+      'mainLink': ''
     },
-    "lookingForAJob": true,
-    "lookingForAJobDescription": "не ищу, а дурачусь",
-    "fullName": "samurai dimych",
-    "userId": 2,
-    "photos": {
-      "small": "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0",
-      "large": "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
+    'lookingForAJob': true,
+    'lookingForAJobDescription': 'не ищу, а дурачусь',
+    'fullName': 'samurai dimych',
+    'userId': 2,
+    'photos': {
+      'small': 'https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0',
+      'large': 'https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0'
     }
   });
   const endState = profileReducer(initialState, action);
@@ -133,26 +135,54 @@ test('user profile info should be added', () => {
       }
     ],
     profile: {
-      "aboutMe": "я круто чувак 1001%",
-      "contacts": {
-        "facebook": "facebook.com",
-        "website": null,
-        "vk": "vk.com/dimych",
-        "twitter": "https://twitter.com/@sdf",
-        "instagram": "instagra.com/sds",
-        "youtube": null,
-        "github": "github.com",
-        "mainLink": null
+      'aboutMe': 'я круто чувак 1001%',
+      'contacts': {
+        'facebook': 'facebook.com',
+        'website': '',
+        'vk': 'vk.com/dimych',
+        'twitter': 'https://twitter.com/@sdf',
+        'instagram': 'instagra.com/sds',
+        'youtube': '',
+        'github': 'github.com',
+        'mainLink': ''
       },
-      "lookingForAJob": true,
-      "lookingForAJobDescription": "не ищу, а дурачусь",
-      "fullName": "samurai dimych",
-      "userId": 2,
-      "photos": {
-        "small": "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0",
-        "large": "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
+      'lookingForAJob': true,
+      'lookingForAJobDescription': 'не ищу, а дурачусь',
+      'fullName': 'samurai dimych',
+      'userId': 2,
+      'photos': {
+        'small': 'https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0',
+        'large': 'https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0'
       }
     },
-    status: ''
+    status: '',
+    editMode: false
   })
+})
+test('new status should be set', () => {
+  const action = profileActions.setStatus('New status!');
+  const endState = profileReducer(initialState, action);
+
+  expect(endState.status).toBeDefined();
+  expect(endState.status).toBe('New status!');
+})
+test('profile photo should be saved', () => {
+  const action = profileActions.savePhotoSuccess({
+    large: 'largePhoto.example',
+    small: 'smallPhoto.example'
+  });
+  const endState = profileReducer(initialState, action);
+
+  expect(endState.profile.photos.small).toBeTruthy();
+  expect(endState.profile.photos.large).toBeTruthy();
+  expect(endState.profile.photos.small).toBe('smallPhoto.example');
+  expect(endState.profile.photos.large).toBe('largePhoto.example');
+
+})
+test('editMode of profile should be set', () => {
+  const action = profileActions.setEditModeProfile(true);
+  const endState = profileReducer(initialState, action);
+
+  expect(endState.editMode).toBeTruthy();
+  expect(endState.editMode).toBe(true);
 })
