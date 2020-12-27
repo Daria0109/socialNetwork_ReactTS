@@ -34,6 +34,7 @@ export type UsersThunkType = ThunkType<UsersActionsType>;
 export const getUsers = (currentPage: number, pageSize: number): UsersThunkType => {
   return async (dispatch) => {
     dispatch(usersActions.toggleIsFetching(true));
+    dispatch(usersActions.setCurrentPage(currentPage));
     let users = await usersAPI.getUsers(currentPage, pageSize);
     dispatch(usersActions.toggleIsFetching(false));
     dispatch(usersActions.setUsers(users.items));
