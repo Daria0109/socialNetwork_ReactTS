@@ -81,4 +81,7 @@ export type UserType = {
   followed: boolean
 };
 
-
+export type UsersSearchFormType = {
+  term: string
+  friend: Nullable<boolean>
+}

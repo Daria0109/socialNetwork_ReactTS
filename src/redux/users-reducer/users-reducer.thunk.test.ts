@@ -85,13 +85,15 @@ const getUsersResult: UsersResponseDataType = {
 }
 userAPIMock.getUsers.mockReturnValue(Promise.resolve(getUsersResult))
 test('successful get users process should be done',  async () => {
-  const thunk = getUsers(1, 5);
+  const filter = {term: '', friend: null};
+  const thunk = getUsers(1, 5, filter);
   await thunk(dispatchMock, getStateMock, {});
 
-  expect(dispatchMock).toBeCalledTimes(5);
+  expect(dispatchMock).toBeCalledTimes(6);
   expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleIsFetching(true));
   expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.setCurrentPage(1));
-  expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleIsFetching(false));
-  expect(dispatchMock).toHaveBeenNthCalledWith(4, usersActions.setUsers(getUsersResult.items));
-  expect(dispatchMock).toHaveBeenNthCalledWith(5, usersActions.setTotalUsersCount(getUsersResult.totalCount));
+  expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.setFilter(filter))
+  expect(dispatchMock).toHaveBeenNthCalledWith(4, usersActions.toggleIsFetching(false));
+  expect(dispatchMock).toHaveBeenNthCalledWith(5, usersActions.setUsers(getUsersResult.items));
+  expect(dispatchMock).toHaveBeenNthCalledWith(6, usersActions.setTotalUsersCount(getUsersResult.totalCount));
   })

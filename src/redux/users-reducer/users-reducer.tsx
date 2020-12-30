@@ -1,7 +1,7 @@
 import {ApiResponseType, ResultCodes, usersAPI} from '../../api/api';
 import {Dispatch} from 'react';
 import {updateObjInArray} from '../../components/utilities/helpers/object-helpers';
-import {InferActionsTypes, ThunkType, UserType} from '../types/types';
+import {InferActionsTypes, Nullable, ThunkType, UsersSearchFormType, UserType} from '../types/types';
 
 
 enum actions {
@@ -11,7 +11,8 @@ enum actions {
   SET_CURRENT_PAGE = 'samurai-network/users/SET-CURRENT-PAGE',
   SET_TOTAL_USERS_COUNT = 'samurai-network/users/SET-TOTAL-USERS-COUNT',
   TOGGLE_IS_FETCHING = 'samurai-network/users/TOGGLE-IS-FETCHING',
-  TOGGLE_FOLLOWING_PROGRESS = 'samurai-network/users/TOGGLE-FOLLOWING-PROGRESS'
+  TOGGLE_FOLLOWING_PROGRESS = 'samurai-network/users/TOGGLE-FOLLOWING-PROGRESS',
+  SET_FILTER = 'samurai-network/users/SET_FILTER'
 }
 
 // A c t i o n  C r e a t o r s
@@ -24,18 +25,20 @@ export const usersActions = {
   toggleIsFetching: (isFetching: boolean) => ({type: actions.TOGGLE_IS_FETCHING, isFetching} as const),
   toggleFollowingProgress: (isFollowingProgress: boolean, userId: number) => ({
     type: actions.TOGGLE_FOLLOWING_PROGRESS, isFollowingProgress, userId
-  } as const)
+  } as const),
+  setFilter: (filter: UsersSearchFormType) => ({type: actions.SET_FILTER, payload: filter} as const)
 }
 export type UsersActionsType = InferActionsTypes<typeof usersActions>;
 
 
 // T h u n k  C r e a t o r s
 export type UsersThunkType = ThunkType<UsersActionsType>;
-export const getUsers = (currentPage: number, pageSize: number): UsersThunkType => {
+export const getUsers = (currentPage: number, pageSize: number, filter: UsersSearchFormType): UsersThunkType => {
   return async (dispatch) => {
     dispatch(usersActions.toggleIsFetching(true));
     dispatch(usersActions.setCurrentPage(currentPage));
-    let users = await usersAPI.getUsers(currentPage, pageSize);
+    dispatch(usersActions.setFilter(filter))
+    let users = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
     dispatch(usersActions.toggleIsFetching(false));
     dispatch(usersActions.setUsers(users.items));
     dispatch(usersActions.setTotalUsersCount(users.totalCount))
@@ -75,6 +78,10 @@ let initialState = {
   portionSize: 10,
   isFetching: true,
   followingInProgress: [] as Array<number>,
+  filter: {
+    term: '',
+    friend: null as Nullable<boolean>
+  } as UsersSearchFormType
 
 }
 export type UsersInitialStateType = typeof initialState;
@@ -120,6 +127,11 @@ let usersReducer = (state = initialState, action: UsersActionsType): UsersInitia
         followingInProgress: action.isFollowingProgress
           ? [...state.followingInProgress, action.userId]
           : state.followingInProgress.filter(id => id !== action.userId)
+      }
+    case actions.SET_FILTER:
+      return {
+        ...state,
+        filter: action.payload
       }
     default:
       return state;
