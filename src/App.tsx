@@ -13,11 +13,12 @@ import {initializeApp} from './redux/app-reducer/app-reducer';
 import Preloader from './components/common/Preloader/Preloader';
 import {withSuspense} from './hoc/withSuspense';
 import Error404 from './components/common/Error404/Error404';
+// import UsersPage from './components/Users/UsersContainer';
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 // import UsersContainer from './components/Users/UsersContainer';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const UsersPage = React.lazy(() => import('./components/Users/UsersPage'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 
 
@@ -40,7 +41,7 @@ type AppPropsType = MapStatePropsType & MapDispatchPropsType
 
 const SuspendedProfile = withSuspense(ProfileContainer);
 const SuspendedDialogs = withSuspense(DialogsContainer);
-const SuspendedUsers = withSuspense(UsersContainer);
+const SuspendedUsers = withSuspense(UsersPage);
 
 class App extends React.Component<AppPropsType> {
   componentDidMount() {

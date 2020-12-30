@@ -8,8 +8,8 @@ import {UsersThunkType} from '../../redux/users-reducer/users-reducer';
 type UserPropsType = {
   user: UserType
   followingInProgress: Array<number>
-  follow: (userId: number) => UsersThunkType
-  unfollow: (userId: number) => UsersThunkType
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
 }
 const User: React.FC<UserPropsType> = ({user, followingInProgress, unfollow, follow}) => {
   return <div key={user.id} className={s.user_block}>
