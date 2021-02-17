@@ -19,7 +19,7 @@ import Error404 from './components/common/Error404/Error404';
 // import ProfileContainer from './components/Profile/ProfileContainer';
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const UsersPage = React.lazy(() => import('./components/Users/UsersPage'));
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const ProfilePage = React.lazy(() => import('./components/Profile/Profile'))
 
 
 const PATH = {
@@ -39,7 +39,7 @@ type MapDispatchPropsType = {
 }
 type AppPropsType = MapStatePropsType & MapDispatchPropsType
 
-const SuspendedProfile = withSuspense(ProfileContainer);
+const SuspendedProfile = withSuspense(ProfilePage);
 const SuspendedDialogs = withSuspense(DialogsContainer);
 const SuspendedUsers = withSuspense(UsersPage);
 
